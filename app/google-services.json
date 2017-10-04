@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1029947475249",
+    "firebase_url": "https://memifyx.firebaseio.com",
+    "project_id": "memifyx",
+    "storage_bucket": "memifyx.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029947475249:android:046c7191c47fd7da",
+        "android_client_info": {
+          "package_name": "com.example.nimesha.memifyx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029947475249-t0uasr1c60cn75jhivjh111vc4ajgdf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nimesha.memifyx",
+            "certificate_hash": "6def36b5edbace9e17f8ef982a09b4e98b6ea2b0"
+          }
+        },
+        {
+          "client_id": "1029947475249-3r4uevupen8dffdjuti6ovvl61teasbm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu2M1n-1YkNP69YCoVBhuHvxUMKiV4aqQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029947475249-3r4uevupen8dffdjuti6ovvl61teasbm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
