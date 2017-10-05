@@ -1,7 +1,6 @@
 package com.example.nimesha.memifyx;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,28 +16,22 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import static android.R.attr.password;
-import static com.example.nimesha.memifyx.R.id.signoutbtn;
+public class Signup extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-    private static final String TAG = "signin";
+    private static final String TAG = "signup";
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private Boolean exit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_signup);
 
-        final EditText username = (EditText) findViewById(R.id.username);
-        final EditText pass = (EditText) findViewById(R.id.password);
+        final EditText username = (EditText) findViewById(R.id.username1);
+        final EditText pass = (EditText) findViewById(R.id.password1);
 
-        Button signinBtn = (Button) findViewById(R.id.signinbtn);
-        Button signupredir = (Button) findViewById(R.id.signupredir);
-        Button signoutBtn = (Button) findViewById(R.id.signoutbtn);
+        Button signupBtn = (Button) findViewById(R.id.signup);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -60,28 +53,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        signinBtn.setOnClickListener(
+        signupBtn.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        signin(username.getText().toString(),pass.getText().toString());
-                    }
-                }
-        );
-
-        signupredir.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, Signup.class);
-                        startActivity(intent);
-                    }
-                }
-        );
-
-        signoutBtn.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        FirebaseAuth.getInstance().signOut();
-                        Log.d(TAG, "User signed out");
+                        signup(username.getText().toString(),pass.getText().toString());
                     }
                 }
         );
@@ -101,29 +76,38 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        if (exit) {
-            finish(); // finish activity
-        } else {
-            Toast.makeText(this, "Press Back again to Exit.",
+    public void signup(final String email, final String password) {
+        if (email.length() == 0 || password.length() == 0) {
+            Log.w(TAG, "signInWithEmail:failure No inputs");
+            Toast.makeText(Signup.this, "Enter valid email/password",
                     Toast.LENGTH_SHORT).show();
-            exit = true;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    exit = false;
-                }
-            }, 3 * 1000);
-
+            return;
         }
 
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Toast.makeText(Signup.this,user.getEmail()+" Registeration Succesfull!",Toast.LENGTH_SHORT).show();
+                            signin(email,password);
+                        }
+
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(Signup.this, "A user with same email exists",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     public void signin(String email, String password){
         if(email.length()==0 || password.length()==0){
             Log.w(TAG, "signInWithEmail:failure No inputs");
-            Toast.makeText(MainActivity.this, "Enter valid email/password",
+            Toast.makeText(Signup.this, "Enter valid email/password",
                     Toast.LENGTH_SHORT).show();
             return;
         }
@@ -135,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            Intent intent = new Intent(MainActivity.this, Landing.class);
+                            Intent intent = new Intent(Signup.this, Landing.class);
                             startActivity(intent);
 
                             FirebaseUser user = mAuth.getCurrentUser();
@@ -145,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
+                            Toast.makeText(Signup.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
 

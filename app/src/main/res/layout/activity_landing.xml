@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.nimesha.memifyx.Landing">
 
-    <Button
-        android:id="@+id/button2"
+    <EditText
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="146dp" />
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        tools:layout_editor_absoluteX="58dp"
+        tools:layout_editor_absoluteY="136dp" />
 </android.support.constraint.ConstraintLayout>
