@@ -147,4 +147,9 @@ public class Landing extends AppCompatActivity {
 
         }
     }
+
+    public void btnShowListImage_Click(View v){
+        Intent i = new Intent(Landing.this,ImageListActivity.class);
+        startActivity(i);
+    }
 }

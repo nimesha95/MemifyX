@@ -1,5 +1,7 @@
 package com.example.nimesha.memifyx;
 
+import android.media.Image;
+
 /**
  * Created by Nimesha on 10/7/2017.
  */
@@ -21,4 +23,6 @@ public class ImageUpload {
         this.name = name;
         this.url = url;
     }
+
+    public ImageUpload(){}
 }
