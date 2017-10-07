@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     //goes to second activity if user is already logged in
-                    Intent intent = new Intent(MainActivity.this, Landing.class);
+                    Intent intent = new Intent(MainActivity.this, TextRating.class);
                     startActivity(intent);
 
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            Intent intent = new Intent(MainActivity.this, Landing.class);
+                            Intent intent = new Intent(MainActivity.this, TextRating.class);
                             startActivity(intent);
 
                             FirebaseUser user = mAuth.getCurrentUser();
