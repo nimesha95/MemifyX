@@ -64,8 +64,8 @@ public class TextRating extends AppCompatActivity{
         SubmitBtn.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        AsyncTaskRunner runner = new AsyncTaskRunner();
-                        runner.execute();
+                        //AsyncTaskRunner runner = new AsyncTaskRunner();
+                        //runner.execute();
                     }
                 }
         );
