@@ -50,6 +50,10 @@ public class TextRating extends AppCompatActivity{
             }
             public void onSwipeLeft() {
                 Log.d(TAG,"Left");
+
+                AsyncTaskRunner runner = new AsyncTaskRunner();
+                runner.execute();
+
                 //SubmitBtn.setClickable(false);
                 //SubmitBtn.setEnabled(false);
                 Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
@@ -136,17 +140,17 @@ public class TextRating extends AppCompatActivity{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Log.d("Server response", server_response );
+                Log.d("api_response", server_response );
             } else {
-                Log.d("Server response", "Failed to get server response" );
+                Log.d("api_response", "Failed to get server response" );
             }
-            return "xyz";
+            return "xyz";   //return some dummy value --- temporary
         }
 
 
         @Override
         protected void onPostExecute(String result) {
-
+            //Log.d("testing123","some stuff received");
         }
 
 
