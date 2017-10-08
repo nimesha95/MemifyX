@@ -1,5 +1,7 @@
 package com.example.nimesha.memifyx;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,17 @@ import android.widget.Toast;
 
 import com.hsalf.smilerating.BaseRating;
 import com.hsalf.smilerating.SmileRating;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+
+import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
+import static com.example.nimesha.memifyx.R.id.username;
 
 
 public class TextRating extends AppCompatActivity{
@@ -43,6 +56,15 @@ public class TextRating extends AppCompatActivity{
             }
 
         });
+
+        SubmitBtn.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        AsyncTaskRunner runner = new AsyncTaskRunner();
+                        runner.execute();
+                    }
+                }
+        );
 
         NotEnglishCheckBox.setOnClickListener(new View.OnClickListener() {
 
@@ -89,6 +111,56 @@ public class TextRating extends AppCompatActivity{
                 }
             }
         });
+    }
+
+    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            String url = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/to_answer_questions";
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpGet httpget= new HttpGet(url);
+
+            HttpResponse response = null;
+            try {
+                response = httpclient.execute(httpget);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if(response.getStatusLine().getStatusCode()==200){
+                String server_response = null;
+                try {
+                    server_response = EntityUtils.toString(response.getEntity());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.d("Server response", server_response );
+            } else {
+                Log.d("Server response", "Failed to get server response" );
+            }
+            return "xyz";
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+
+
+        }
     }
 
 
