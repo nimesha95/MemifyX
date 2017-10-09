@@ -150,7 +150,7 @@ public class TextRating extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(String result) {
-            //Log.d("testing123","some stuff received");
+            Log.d("testing123",result);
         }
 
 
