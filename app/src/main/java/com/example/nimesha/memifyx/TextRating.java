@@ -14,14 +14,29 @@ import android.widget.Toast;
 import com.hsalf.smilerating.BaseRating;
 import com.hsalf.smilerating.SmileRating;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
+import static android.R.attr.id;
+import static android.R.attr.name;
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 import static com.example.nimesha.memifyx.R.id.username;
 
@@ -29,7 +44,6 @@ import static com.example.nimesha.memifyx.R.id.username;
 public class TextRating extends AppCompatActivity{
 
     public static String TAG = "smilies";
-
 
 
     @Override
@@ -117,12 +131,15 @@ public class TextRating extends AppCompatActivity{
         });
     }
 
-    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
+    private class AsyncTaskRunner extends AsyncTask<String,Void, String> {
 
+        InputStream inputStream = null;
+        String result = "";
 
         @Override
         protected String doInBackground(String... params) {
-            String url = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/to_answer_questions";
+            String url = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/next10_unanswered_questions";
+/*
             HttpClient httpclient = new DefaultHttpClient();
             HttpGet httpget= new HttpGet(url);
 
@@ -145,24 +162,83 @@ public class TextRating extends AppCompatActivity{
                 Log.d("api_response", "Failed to get server response" );
             }
             return "xyz";   //return some dummy value --- temporary
+            */
+
+            ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
+
+            try {
+                // Set up HTTP post
+
+                // HttpClient is more then less deprecated. Need to change to URLConnection
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpGet httpget= new HttpGet(url);
+
+                HttpResponse response = null;
+                try {
+                    response = httpclient.execute(httpget);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                HttpEntity httpEntity = response.getEntity();
+
+                // Read content & Log
+                inputStream = httpEntity.getContent();
+            } catch (UnsupportedEncodingException e1) {
+
+                e1.printStackTrace();
+            } catch (ClientProtocolException e2) {
+                Log.e("ClientProtocolException", e2.toString());
+                e2.printStackTrace();
+            } catch (IllegalStateException e3) {
+                Log.e("IllegalStateException", e3.toString());
+                e3.printStackTrace();
+            } catch (IOException e4) {
+                Log.e("IOException", e4.toString());
+                e4.printStackTrace();
+            }
+            // Convert response to string using String Builder
+            try {
+                BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
+                StringBuilder sBuilder = new StringBuilder();
+
+                String line = null;
+                while ((line = bReader.readLine()) != null) {
+                    sBuilder.append(line + "\n");
+                }
+
+                inputStream.close();
+                result = sBuilder.toString();
+
+            } catch (Exception e) {
+
+            }
+                return result;
         }
 
 
         @Override
         protected void onPostExecute(String result) {
-            Log.d("testing123",result);
+            //Log.d("testing123",result);
+
+            //parse JSON data
+            try {
+                JSONArray jArray = new JSONArray(result);
+                for(int i=0; i < jArray.length(); i++) {
+
+                    JSONObject jObject = jArray.getJSONObject(i);
+
+                    String question_id = jObject.getString("question_id");
+                    String question = jObject.getString("question");
+                    Log.d("hippo",question_id+" --> "+question);
+                } // End Loop
+            } catch (JSONException e) {
+                Log.e("JSONException", "Error: " + e.toString());
+            } // catch (JSONException e)
         }
 
 
         @Override
         protected void onPreExecute() {
-
-        }
-
-
-        @Override
-        protected void onProgressUpdate(String... text) {
-
 
         }
     }
