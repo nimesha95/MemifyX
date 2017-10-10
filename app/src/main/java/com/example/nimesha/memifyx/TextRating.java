@@ -43,6 +43,7 @@ import java.util.List;
 import static android.R.attr.id;
 import static android.R.attr.name;
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
+import static com.example.nimesha.memifyx.R.id.checkBox;
 import static com.example.nimesha.memifyx.R.id.username;
 
 
@@ -55,6 +56,7 @@ public class TextRating extends AppCompatActivity{
     LinearLayout linlaHeaderProgress;
     ScrollView scrollViewQuestionText;
     SmileRating smileRating;
+    CheckBox NotEnglishCheckBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +68,7 @@ public class TextRating extends AppCompatActivity{
         scrollViewQuestionText=(ScrollView) findViewById(R.id.scrollViewQuestionText);
         textViewQuestionText = (TextView) findViewById(R.id.textViewQuestionText);
         SubmitBtn = (Button) findViewById(R.id.button4);
-        CheckBox NotEnglishCheckBox = (CheckBox) findViewById (R.id.checkBox);
+        NotEnglishCheckBox = (CheckBox) findViewById (R.id.checkBox);
         setQuestion();
         setProgressBarIndeterminateVisibility(true);
         scrollViewQuestionText.setOnTouchListener(new OnSwipeTouchListener(TextRating.this) {
@@ -84,14 +86,7 @@ public class TextRating extends AppCompatActivity{
 
         });
 
-        SubmitBtn.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        //AsyncTaskRunner runner = new AsyncTaskRunner();
-                        //runner.execute();
-                    }
-                }
-        );
+
 
         NotEnglishCheckBox.setOnClickListener(new View.OnClickListener() {
 
@@ -144,7 +139,67 @@ public class TextRating extends AppCompatActivity{
                 }
             }
         });
+
+        SubmitBtn.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        try {
+                            JSONObject readility=new JSONObject();
+                            readility.put("enumAnswer",checkBoxStatus());
+
+                            JSONObject ToxicityLevel=new JSONObject();
+                            ToxicityLevel.put("enumAnswer",Toxicity());
+
+                            JSONObject theAnswer=new JSONObject();
+                            theAnswer.put("readableAndInEnglish",readility);
+                            theAnswer.put("toxic",ToxicityLevel);
+                            Intent intent=new Intent(TextRating.this,typeButtonsActivity.class);
+                            intent.putExtra("theAnswer",theAnswer.toString());
+                            startActivity(intent);
+
+                        }
+                        catch (Exception e){
+                            Toast.makeText(TextRating.this, "exception while building answer JSON", Toast.LENGTH_SHORT).show();
+
+                        }
+
+
+                    }
+                }
+        );
     }
+
+    private String checkBoxStatus(){
+        if(NotEnglishCheckBox.isChecked()){
+            Log.d("checkBoxStatus","Yes");
+            return "Yes";
+        }
+        else{
+            Log.d("checkBoxStatus","No");
+            return "No";
+        }
+
+    }
+
+    private String Toxicity(){
+        if(smileRating.getRating()==1 ||smileRating.getRating()==2){
+            Log.d("checkBoxStatus","Very");
+            return "Very";
+        }
+        else if(smileRating.getRating()==4 ||smileRating.getRating()==5){
+            Log.d("checkBoxStatus","NotAtAll");
+            return "NotAtAll";
+        }
+
+        else if (smileRating.getRating()==3){
+            Log.d("checkBoxStatus","Somewhat");
+            return "Somewhat";
+        }
+        else return null;
+    }
+
+
+
 
     private class AsyncTaskRunner extends AsyncTask<String,Void, String> {
 
