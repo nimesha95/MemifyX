@@ -1,6 +1,7 @@
 package com.example.nimesha.memifyx;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.R.attr.id;
 import static android.R.attr.name;
@@ -42,20 +44,20 @@ import static com.example.nimesha.memifyx.R.id.username;
 
 
 public class TextRating extends AppCompatActivity{
-
+    List<Question> questionList = new ArrayList<Question>();
     public static String TAG = "smilies";
-    public String [] texts = new String[100];
-
+    TextView textViewQuestionText;
+    Button SubmitBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_rating);
 
-        final TextView txt = (TextView) findViewById(R.id.textView3);
-        final Button SubmitBtn = (Button) findViewById(R.id.button4);
-        final CheckBox NotEnglishCheckBox = (CheckBox) findViewById (R.id.checkBox);
+        textViewQuestionText = (TextView) findViewById(R.id.textViewQuestionText);
+        SubmitBtn = (Button) findViewById(R.id.button4);
+        CheckBox NotEnglishCheckBox = (CheckBox) findViewById (R.id.checkBox);
 
-        txt.setOnTouchListener(new OnSwipeTouchListener(TextRating.this) {
+        textViewQuestionText.setOnTouchListener(new OnSwipeTouchListener(TextRating.this) {
             public void onSwipeRight() {
                 Log.d(TAG,"Right");
                 //SubmitBtn.setClickable(true);
@@ -64,13 +66,16 @@ public class TextRating extends AppCompatActivity{
             }
             public void onSwipeLeft() {
                 Log.d(TAG,"Left");
+                if (questionList.isEmpty()) {
 
-                AsyncTaskRunner runner = new AsyncTaskRunner();
-                runner.execute();
+                    AsyncTaskRunner runner = new AsyncTaskRunner();
+                    runner.execute();
 
-                //SubmitBtn.setClickable(false);
-                //SubmitBtn.setEnabled(false);
-                Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
+                    //SubmitBtn.setClickable(false);
+                    //SubmitBtn.setEnabled(false);
+                    //Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
+                }
+                setQuestion();
             }
 
         });
@@ -78,7 +83,8 @@ public class TextRating extends AppCompatActivity{
         SubmitBtn.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        Log.d("lenArr", ""+texts[0]);
+                        //AsyncTaskRunner runner = new AsyncTaskRunner();
+                        //runner.execute();
                     }
                 }
         );
@@ -219,6 +225,7 @@ public class TextRating extends AppCompatActivity{
         protected void onPostExecute(String result) {
             //Log.d("testing123",result);
 
+
             //parse JSON data
             try {
                 JSONArray jArray = new JSONArray(result);
@@ -228,9 +235,9 @@ public class TextRating extends AppCompatActivity{
                     JSONObject questionObject = new JSONObject(jObject.getString("question"));
 
                     String question = questionObject.getString("revision_text");
-                    String question_id = questionObject.getString("revision_id");
-                    Log.d("hippo",question_id+" --> "+question);
-                    texts[i] = question;
+                    String questionID = questionObject.getString("revision_id");
+                    Log.d("hippo",questionID+" --> "+question);
+                    questionList.add(new Question(questionID,question));
                 } // End Loop
             } catch (JSONException e) {
                 Log.e("JSONException", "Error: " + e.toString());
@@ -244,5 +251,10 @@ public class TextRating extends AppCompatActivity{
         }
     }
 
+    void setQuestion() {
+            Question theQuestion=questionList.get(0);
+            questionList.remove(0);
+            textViewQuestionText.setText(theQuestion.getQuestion());
+    }
 
 }
