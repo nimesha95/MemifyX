@@ -54,13 +54,14 @@ public class TextRating extends AppCompatActivity{
     Button SubmitBtn;
     LinearLayout linlaHeaderProgress;
     ScrollView scrollViewQuestionText;
+    SmileRating smileRating;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         setContentView(R.layout.activity_text_rating);
-
+        smileRating = (SmileRating) findViewById(R.id.smile_rating);
         linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
         scrollViewQuestionText=(ScrollView) findViewById(R.id.scrollViewQuestionText);
         textViewQuestionText = (TextView) findViewById(R.id.textViewQuestionText);
@@ -99,18 +100,22 @@ public class TextRating extends AppCompatActivity{
                 //is chkIos checked?
                 if (((CheckBox) v).isChecked()) {
                     //Case 1
+                    smileRating.setSelectedSmile(BaseRating.NONE,false);
                     SubmitBtn.setClickable(true);
                     SubmitBtn.setEnabled(true);
                 }
                 else {
                     //case 2
-                    SubmitBtn.setClickable(false);
-                    SubmitBtn.setEnabled(false);
+                    if (smileRating.getRating()>0){
+                        SubmitBtn.setClickable(true);
+                        SubmitBtn.setEnabled(true);}
+                    else{
+                        SubmitBtn.setClickable(false);
+                        SubmitBtn.setEnabled(false);}
                 }
             }
         });
 
-        SmileRating smileRating = (SmileRating) findViewById(R.id.smile_rating);
 
         smileRating.setOnSmileySelectionListener(new SmileRating.OnSmileySelectionListener() {
             @Override
@@ -118,6 +123,8 @@ public class TextRating extends AppCompatActivity{
                 // reselected is false when user selects different smiley that previously selected one
                 // true when the same smiley is selected.
                 // Except if it first time, then the value will be false.
+                SubmitBtn.setClickable(true);
+                SubmitBtn.setEnabled(true);
                 switch (smiley) {
                     case SmileRating.BAD:
                         Log.i(TAG, "Bad");
