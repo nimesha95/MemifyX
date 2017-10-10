@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,8 @@ public class TextRating extends AppCompatActivity{
     public static String TAG = "smilies";
     TextView textViewQuestionText;
     Button SubmitBtn;
+    ScrollView scrollview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +59,9 @@ public class TextRating extends AppCompatActivity{
         textViewQuestionText = (TextView) findViewById(R.id.textViewQuestionText);
         SubmitBtn = (Button) findViewById(R.id.button4);
         CheckBox NotEnglishCheckBox = (CheckBox) findViewById (R.id.checkBox);
+        scrollview = (ScrollView) findViewById(R.id.scrollview);
 
-        textViewQuestionText.setOnTouchListener(new OnSwipeTouchListener(TextRating.this) {
+        scrollview.setOnTouchListener(new OnSwipeTouchListener(TextRating.this) {
             public void onSwipeRight() {
                 Log.d(TAG,"Right");
                 //SubmitBtn.setClickable(true);
@@ -73,7 +77,7 @@ public class TextRating extends AppCompatActivity{
 
                     //SubmitBtn.setClickable(false);
                     //SubmitBtn.setEnabled(false);
-                    //Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
                 }
                 setQuestion();
             }
