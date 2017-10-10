@@ -44,7 +44,7 @@ import static com.example.nimesha.memifyx.R.id.username;
 public class TextRating extends AppCompatActivity{
 
     public static String TAG = "smilies";
-
+    public String [] texts = new String[100];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +78,7 @@ public class TextRating extends AppCompatActivity{
         SubmitBtn.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        //AsyncTaskRunner runner = new AsyncTaskRunner();
-                        //runner.execute();
+                        Log.d("lenArr", ""+texts[0]);
                     }
                 }
         );
@@ -231,6 +230,7 @@ public class TextRating extends AppCompatActivity{
                     String question = questionObject.getString("revision_text");
                     String question_id = questionObject.getString("revision_id");
                     Log.d("hippo",question_id+" --> "+question);
+                    texts[i] = question;
                 } // End Loop
             } catch (JSONException e) {
                 Log.e("JSONException", "Error: " + e.toString());
