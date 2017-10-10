@@ -1,63 +1,99 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linlaHeaderProgress"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/pbHeaderProgress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></ProgressBar>
+    </LinearLayout>
+
 
     <ScrollView
-        android:id="@+id/scrollview"
+        android:id="@+id/scrollViewQuestionText"
         android:layout_width="match_parent"
-        android:layout_height="225dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        >
-        <RelativeLayout
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/checkBox"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/checkBox"
-            >
+            android:orientation="vertical" >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:gravity="center">
+
 
             <TextView
                 android:id="@+id/textViewQuestionText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="12dp"
-                android:layout_marginStart="12dp"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vulputate eget quam quis feugiat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi eleifend ante eu ex tristique interdum. Nunc tempus ante ut tincidunt suscipit. Fusce tristique ante eu est vestibulum accumsan." />
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
 
-        </RelativeLayout>
+
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vulputate eget quam quis feugiat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi eleifend ante eu ex tristique interdum. Nunc tempus ante ut tincidunt suscipit. Fusce tristique ante eu est vestibulum accumsan." />
+        </TableRow>
+        </LinearLayout>
     </ScrollView>
 
-    <CheckBox
-        android:id="@+id/checkBox"
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+
+            android:text="cannot identify the text or not in english" />
+
+    </TableRow>
+
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="cannot identify the text or not in english"
-        android:layout_below="@+id/scrollview"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginTop="50dp"
+        android:gravity="center">
 
+        <com.hsalf.smilerating.SmileRating
 
-    <com.hsalf.smilerating.SmileRating
-        android:id="@+id/smile_rating"
+            android:id="@+id/smile_rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </TableRow>
+
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/checkBox"/>
+        android:layout_marginTop="50dp">
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/smile_rating"
-        android:layout_marginTop="52dp"
-        android:enabled="false"
-        android:text="submit" />
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="submit" />
+    </TableRow>
 
-
-</RelativeLayout>
+</LinearLayout>
