@@ -226,9 +226,10 @@ public class TextRating extends AppCompatActivity{
                 for(int i=0; i < jArray.length(); i++) {
 
                     JSONObject jObject = jArray.getJSONObject(i);
+                    JSONObject questionObject = new JSONObject(jObject.getString("question"));
 
-                    String question_id = jObject.getString("question_id");
-                    String question = jObject.getString("question");
+                    String question = questionObject.getString("revision_text");
+                    String question_id = questionObject.getString("revision_id");
                     Log.d("hippo",question_id+" --> "+question);
                 } // End Loop
             } catch (JSONException e) {
