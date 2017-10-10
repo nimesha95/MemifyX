@@ -35,7 +35,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:gravity="center">
 
             <TextView
                 android:id="@+id/textViewQuestionText"
@@ -48,6 +52,7 @@
 
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vulputate eget quam quis feugiat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi eleifend ante eu ex tristique interdum. Nunc tempus ante ut tincidunt suscipit. Fusce tristique ante eu est vestibulum accumsan." />
 
+            </TableRow>
         </LinearLayout>
     </ScrollView>
 
