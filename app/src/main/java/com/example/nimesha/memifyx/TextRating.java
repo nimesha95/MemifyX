@@ -198,7 +198,7 @@ public class TextRating extends AppCompatActivity{
             }
             // Convert response to string using String Builder
             try {
-                BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 16);
+                BufferedReader bReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
                 StringBuilder sBuilder = new StringBuilder();
 
                 String line = null;
@@ -218,7 +218,7 @@ public class TextRating extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(String result) {
-            Log.d("testing123",result);
+            //Log.d("testing123",result);
 
             //parse JSON data
             try {
@@ -226,14 +226,10 @@ public class TextRating extends AppCompatActivity{
                 for(int i=0; i < jArray.length(); i++) {
 
                     JSONObject jObject = jArray.getJSONObject(i);
+                    JSONObject questionObject = new JSONObject(jObject.getString("question"));
 
-                    String question_id = jObject.getString("question_id");
-                    String question = jObject.getString("question");
-
-                    String newString = question.substring(44);
-                    newString = cleanString(newString);
-                    Log.d("juststuff",newString);
-
+                    String question = questionObject.getString("revision_text");
+                    String question_id = questionObject.getString("revision_id");
                     Log.d("hippo",question_id+" --> "+question);
                 } // End Loop
             } catch (JSONException e) {
@@ -248,16 +244,5 @@ public class TextRating extends AppCompatActivity{
         }
     }
 
-    private String cleanString(String str){
-        String newString;
-        if(str.substring(0,1).equals('\\')){
-            Log.d("meaw","true that");
-            newString = str.substring(2);
-            return newString;
-        }
-        else{
-            return str;
-        }
 
-    }
 }
