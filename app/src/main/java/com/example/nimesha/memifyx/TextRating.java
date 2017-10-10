@@ -7,8 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,20 +47,28 @@ import static com.example.nimesha.memifyx.R.id.username;
 
 
 public class TextRating extends AppCompatActivity{
+    boolean islistInit=false;
     List<Question> questionList = new ArrayList<Question>();
     public static String TAG = "smilies";
     TextView textViewQuestionText;
     Button SubmitBtn;
+    LinearLayout linlaHeaderProgress;
+    ScrollView scrollViewQuestionText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         setContentView(R.layout.activity_text_rating);
 
+        linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
+        scrollViewQuestionText=(ScrollView) findViewById(R.id.scrollViewQuestionText);
         textViewQuestionText = (TextView) findViewById(R.id.textViewQuestionText);
         SubmitBtn = (Button) findViewById(R.id.button4);
         CheckBox NotEnglishCheckBox = (CheckBox) findViewById (R.id.checkBox);
-
-        textViewQuestionText.setOnTouchListener(new OnSwipeTouchListener(TextRating.this) {
+        setQuestion();
+        setProgressBarIndeterminateVisibility(true);
+        scrollViewQuestionText.setOnTouchListener(new OnSwipeTouchListener(TextRating.this) {
             public void onSwipeRight() {
                 Log.d(TAG,"Right");
                 //SubmitBtn.setClickable(true);
@@ -66,15 +77,7 @@ public class TextRating extends AppCompatActivity{
             }
             public void onSwipeLeft() {
                 Log.d(TAG,"Left");
-                if (questionList.isEmpty()) {
 
-                    AsyncTaskRunner runner = new AsyncTaskRunner();
-                    runner.execute();
-
-                    //SubmitBtn.setClickable(false);
-                    //SubmitBtn.setEnabled(false);
-                    //Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
-                }
                 setQuestion();
             }
 
@@ -140,6 +143,12 @@ public class TextRating extends AppCompatActivity{
 
         InputStream inputStream = null;
         String result = "";
+
+        @Override
+        protected void onPreExecute() {
+            // SHOW THE SPINNER WHILE LOADING FEEDS
+            linlaHeaderProgress.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -238,23 +247,42 @@ public class TextRating extends AppCompatActivity{
                     String questionID = questionObject.getString("revision_id");
                     Log.d("hippo",questionID+" --> "+question);
                     questionList.add(new Question(questionID,question));
-                } // End Loop
+
+                    islistInit=true;
+
+
+                }
+                Question theQuestion = questionList.get(0);
+                questionList.remove(0);
+                textViewQuestionText.setText(theQuestion.getQuestion());// End Loop
+                linlaHeaderProgress.setVisibility(View.GONE);
+
             } catch (JSONException e) {
                 Log.e("JSONException", "Error: " + e.toString());
             } // catch (JSONException e)
         }
 
 
-        @Override
-        protected void onPreExecute() {
 
-        }
     }
 
     void setQuestion() {
-            Question theQuestion=questionList.get(0);
+        if (questionList.isEmpty()) {
+
+
+            AsyncTaskRunner runner = new AsyncTaskRunner();
+            runner.execute();
+
+            //SubmitBtn.setClickable(false);
+            //SubmitBtn.setEnabled(false);
+            //Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
+
+        }
+        else {
+            Question theQuestion = questionList.get(0);
             questionList.remove(0);
             textViewQuestionText.setText(theQuestion.getQuestion());
+        }
     }
 
 }
