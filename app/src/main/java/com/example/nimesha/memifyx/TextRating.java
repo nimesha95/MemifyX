@@ -1,10 +1,14 @@
 package com.example.nimesha.memifyx;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -78,8 +82,8 @@ public class TextRating extends AppCompatActivity{
         SubmitBtn.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        //AsyncTaskRunner runner = new AsyncTaskRunner();
-                        //runner.execute();
+                        Intent inten = new Intent(TextRating.this,button_grp.class);
+                        startActivity(inten);
                     }
                 }
         );
@@ -129,6 +133,7 @@ public class TextRating extends AppCompatActivity{
                 }
             }
         });
+
     }
 
     private class AsyncTaskRunner extends AsyncTask<String,Void, String> {
