@@ -73,7 +73,7 @@ public class TextRating extends AppCompatActivity{
                 Log.d(TAG,"Right");
                 //SubmitBtn.setClickable(true);
                 //SubmitBtn.setEnabled(true);
-                Toast.makeText(TextRating.this, "right", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TextRating.this, "please swipe left to skip this question", Toast.LENGTH_SHORT).show();
             }
             public void onSwipeLeft() {
                 Log.d(TAG,"Left");
