@@ -147,36 +147,13 @@ public class TextRating extends AppCompatActivity{
         @Override
         protected void onPreExecute() {
             // SHOW THE SPINNER WHILE LOADING FEEDS
+            scrollViewQuestionText.setVisibility(View.GONE);
             linlaHeaderProgress.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected String doInBackground(String... params) {
             String url = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/next10_unanswered_questions";
-/*
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpGet httpget= new HttpGet(url);
-
-            HttpResponse response = null;
-            try {
-                response = httpclient.execute(httpget);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if(response.getStatusLine().getStatusCode()==200){
-                String server_response = null;
-                try {
-                    server_response = EntityUtils.toString(response.getEntity());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Log.d("api_response", server_response );
-            } else {
-                Log.d("api_response", "Failed to get server response" );
-            }
-            return "xyz";   //return some dummy value --- temporary
-            */
 
             ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
@@ -256,6 +233,7 @@ public class TextRating extends AppCompatActivity{
                 questionList.remove(0);
                 textViewQuestionText.setText(theQuestion.getQuestion());// End Loop
                 linlaHeaderProgress.setVisibility(View.GONE);
+                scrollViewQuestionText.setVisibility(View.VISIBLE);
 
             } catch (JSONException e) {
                 Log.e("JSONException", "Error: " + e.toString());
