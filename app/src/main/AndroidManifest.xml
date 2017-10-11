@@ -27,7 +27,8 @@
         <activity android:name=".Landing" />
         <activity android:name=".Signup" />
         <activity android:name=".ImageListActivity" />
-        <activity android:name=".TextRating"></activity>
+        <activity android:name=".TextRating" />
+        <activity android:name=".typeButtonsActivity"></activity>
     </application>
 
 </manifest>
