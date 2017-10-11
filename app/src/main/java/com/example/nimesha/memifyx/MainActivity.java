@@ -128,15 +128,15 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-
-        mAuth.signInWithEmailAndPassword(email, password)
+        String newEmail = email + "@memify.com";
+        mAuth.signInWithEmailAndPassword(newEmail, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            Intent intent = new Intent(MainActivity.this, TextRating.class);
+                            Intent intent = new Intent(MainActivity.this, decision_point.class);
                             startActivity(intent);
 
                             FirebaseUser user = mAuth.getCurrentUser();

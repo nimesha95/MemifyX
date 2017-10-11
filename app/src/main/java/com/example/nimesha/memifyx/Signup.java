@@ -83,8 +83,8 @@ public class Signup extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-
-        mAuth.createUserWithEmailAndPassword(email, password)
+        final String newEmail = email + "@memify.com";
+        mAuth.createUserWithEmailAndPassword(newEmail, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -93,7 +93,7 @@ public class Signup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(Signup.this,user.getEmail()+" Registeration Succesfull!",Toast.LENGTH_SHORT).show();
-                            signin(email,password);
+                            signin(newEmail, password);
                         }
 
                         if (!task.isSuccessful()) {
@@ -111,7 +111,6 @@ public class Signup extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -119,7 +118,7 @@ public class Signup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            Intent intent = new Intent(Signup.this, Landing.class);
+                            Intent intent = new Intent(Signup.this, decision_point.class);
                             startActivity(intent);
 
                             FirebaseUser user = mAuth.getCurrentUser();
