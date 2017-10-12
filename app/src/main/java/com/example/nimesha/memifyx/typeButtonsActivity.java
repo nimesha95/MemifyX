@@ -51,6 +51,74 @@ public class typeButtonsActivity extends AppCompatActivity {
                     }
                 }
         );
+        ButtonIdentityHate.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        //int colour []={14935269,14784150,14745600};
+                        int colour []={Color.BLACK,Color.BLUE,Color.GREEN};
+                        ButtonClicked(ButtonIdentityHate,1,colour);
+
+
+                    }
+                }
+        );
+        ButtonInsult.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        //int colour []={14935269,14784150,14745600};
+                        int colour []={Color.BLACK,Color.BLUE,Color.GREEN};
+                        ButtonClicked(ButtonInsult,2,colour);
+
+
+                    }
+                }
+        );
+        ButtonThreat.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        //int colour []={14935269,14784150,14745600};
+                        int colour []={Color.BLACK,Color.BLUE,Color.GREEN};
+                        ButtonClicked(ButtonThreat,3,colour);
+
+
+                    }
+                }
+        );
+        ButtonSubmit.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        try {
+                            JSONObject JsonObscene = new JSONObject();
+                            JsonObscene.put("enumAnswer", getObsceneLevel());
+
+                            JSONObject JsonIdentityHate = new JSONObject();
+                            JsonIdentityHate.put("enumAnswer", getIdentityHateLevel());
+
+                            JSONObject JsonInsult = new JSONObject();
+                            JsonInsult.put("enumAnswer", getInsultLevel());
+
+                            JSONObject JsonThreat = new JSONObject();
+                            JsonThreat.put("enumAnswer", getThreatLevel());
+
+                            theAnswer.put("obscene",JsonObscene);
+                            theAnswer.put("identityHate",JsonIdentityHate);
+                            theAnswer.put("insult",JsonInsult);
+                            theAnswer.put("threat", JsonThreat);
+
+                            JSONObject finalAnswer = new JSONObject();
+                            finalAnswer.put("answer",theAnswer);
+                            Log.d("finalAnswer",finalAnswer.getString("answer"));
+
+                        }
+                        catch (Exception e){
+
+                        }
+
+
+                    }
+                }
+        );
+
 
     }
 
@@ -60,6 +128,34 @@ public class typeButtonsActivity extends AppCompatActivity {
 
     }
 
+    String getObsceneLevel(){
+        return getLevel(0);
+    }
+    String getIdentityHateLevel(){
+        return getLevel(1);
+    }
+    String getInsultLevel(){
+        return getLevel(2);
+    }
+    String getThreatLevel(){
+        return getLevel(3);
+    }
+
+    String getLevel(int i){
+        switch (buttonStaus[i]){
+            case 0:
+                return "NotAtAll";
+
+            case 1:
+                return "Somewhat";
+
+            case 2:
+                return "Very";
+
+            default:
+                return "Error";
+        }
+    }
 
 
 }

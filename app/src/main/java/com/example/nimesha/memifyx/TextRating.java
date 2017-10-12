@@ -96,11 +96,15 @@ public class TextRating extends AppCompatActivity{
                 if (((CheckBox) v).isChecked()) {
                     //Case 1
                     smileRating.setSelectedSmile(BaseRating.NONE,false);
+                    smileRating.setEnabled(false);
+                    smileRating.setVisibility(View.INVISIBLE);
                     SubmitBtn.setClickable(true);
                     SubmitBtn.setEnabled(true);
                 }
                 else {
-                    //case 2
+                    smileRating.setEnabled(true);
+                    smileRating.setVisibility(View.VISIBLE);
+
                     if (smileRating.getRating()>0){
                         SubmitBtn.setClickable(true);
                         SubmitBtn.setEnabled(true);}
@@ -144,19 +148,52 @@ public class TextRating extends AppCompatActivity{
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         try {
-                            JSONObject readility=new JSONObject();
-                            readility.put("enumAnswer",checkBoxStatus());
+                            if(NotEnglishCheckBox.isChecked()){
+                                JSONObject readility = new JSONObject();
+                                readility.put("enumAnswer", checkBoxStatus());
 
-                            JSONObject ToxicityLevel=new JSONObject();
-                            ToxicityLevel.put("enumAnswer",Toxicity());
+                                JSONObject ToxicityLevel = new JSONObject();
+                                ToxicityLevel.put("enumAnswer", "");
 
-                            JSONObject theAnswer=new JSONObject();
-                            theAnswer.put("readableAndInEnglish",readility);
-                            theAnswer.put("toxic",ToxicityLevel);
-                            Intent intent=new Intent(TextRating.this,typeButtonsActivity.class);
-                            intent.putExtra("theAnswer",theAnswer.toString());
-                            startActivity(intent);
+                                JSONObject JsonObscene = new JSONObject();
+                                JsonObscene.put("enumAnswer", "");
 
+                                JSONObject JsonIdentityHate = new JSONObject();
+                                JsonIdentityHate.put("enumAnswer", "");
+
+                                JSONObject JsonInsult = new JSONObject();
+                                JsonInsult.put("enumAnswer", "");
+
+                                JSONObject JsonThreat = new JSONObject();
+                                JsonThreat.put("enumAnswer", "");
+
+                                JSONObject theAnswer = new JSONObject();
+
+                                theAnswer.put("obscene",JsonObscene);
+                                theAnswer.put("identityHate",JsonIdentityHate);
+                                theAnswer.put("insult",JsonInsult);
+                                theAnswer.put("threat", JsonThreat);
+
+                                JSONObject finalAnswer = new JSONObject();
+                                finalAnswer.put("answer",theAnswer);
+                                Log.d("finalAnswer",finalAnswer.getString("answer"));
+                            }
+                            else {
+                                JSONObject readility = new JSONObject();
+                                readility.put("enumAnswer", checkBoxStatus());
+
+                                JSONObject ToxicityLevel = new JSONObject();
+                                ToxicityLevel.put("enumAnswer", Toxicity());
+
+                                JSONObject theAnswer = new JSONObject();
+
+                                theAnswer.put("readableAndInEnglish", readility);
+                                theAnswer.put("toxic", ToxicityLevel);
+
+                                Intent intent = new Intent(TextRating.this, typeButtonsActivity.class);
+                                intent.putExtra("theAnswer", theAnswer.toString());
+                                startActivity(intent);
+                            }
                         }
                         catch (Exception e){
                             Toast.makeText(TextRating.this, "exception while building answer JSON", Toast.LENGTH_SHORT).show();
