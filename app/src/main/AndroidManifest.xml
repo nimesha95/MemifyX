@@ -29,7 +29,8 @@
         <activity android:name=".ImageListActivity" />
         <activity android:name=".activity_terms" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".button_grp"></activity>
+        <activity android:name=".button_grp" />
+        <activity android:name=".tutorial"></activity>
     </application>
 
 </manifest>
