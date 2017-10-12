@@ -28,7 +28,9 @@
         <activity android:name=".Signup" />
         <activity android:name=".ImageListActivity" />
         <activity android:name=".TextRating" />
-        <activity android:name=".typeButtonsActivity"></activity>
+        <activity android:name=".typeButtonsActivity" />
+        <activity android:name=".MemeSlider" />
+        <activity android:name=".decision_point"></activity>
     </application>
 
 </manifest>

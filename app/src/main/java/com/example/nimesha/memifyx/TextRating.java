@@ -308,9 +308,6 @@ public class TextRating extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(String result) {
-            //Log.d("testing123",result);
-
-
             //parse JSON data
             try {
                 JSONArray jArray = new JSONArray(result);
@@ -358,6 +355,7 @@ public class TextRating extends AppCompatActivity{
         else {
             Question theQuestion = questionList.get(0);
             questionList.remove(0);
+            scrollViewQuestionText.setVisibility(View.VISIBLE);
             textViewQuestionText.setText(theQuestion.getQuestion());
         }
     }

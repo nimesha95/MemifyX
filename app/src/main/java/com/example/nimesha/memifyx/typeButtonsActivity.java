@@ -2,6 +2,8 @@ package com.example.nimesha.memifyx;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import org.json.JSONObject;
+
+import static android.R.attr.button;
 
 public class typeButtonsActivity extends AppCompatActivity {
     static int buttonStaus[]=new int [4];
@@ -46,8 +50,15 @@ public class typeButtonsActivity extends AppCompatActivity {
                         //int colour []={14935269,14784150,14745600};
                         int colour []={Color.BLACK,Color.BLUE,Color.GREEN};
                         ButtonClicked(ButtonObscene,0,colour);
+                    }
+                }
+        );
 
-
+        ButtonThreat.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        //ButtonThreat.setBackgroundColor(14745600);
+                        ButtonThreat.getBackground().setColorFilter(Color.RED,PorterDuff.Mode.MULTIPLY);
                     }
                 }
         );
