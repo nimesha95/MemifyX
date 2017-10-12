@@ -43,6 +43,7 @@ public class MemeSlider extends AppCompatActivity {
         setContentView(R.layout.activity_meme_slider);
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference(Landing.FB_DATABASE_PATH);
+
         ImageArray = new ArrayList<ImageUpload>();
 
         imgview1 = (ImageView) findViewById(R.id.imageView2);

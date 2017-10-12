@@ -1,6 +1,7 @@
 package com.example.nimesha.memifyx;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -106,6 +107,11 @@ public class Signup extends AppCompatActivity {
                             mUserDatabaseRef.child(email).child("count").setValue(0);
                             mUserDatabaseRef.child(email).child("swipes").setValue(10);
 
+                            SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("username", email);
+                            editor.putInt("swipes", 10);     //at the signup user is given 10 swipes
+                            editor.commit();
 
                             signin(newEmail, password);
                         }
@@ -132,6 +138,7 @@ public class Signup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
+
                             Intent intent = new Intent(Signup.this, decision_point.class);
                             startActivity(intent);
 

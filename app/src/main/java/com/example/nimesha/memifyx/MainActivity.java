@@ -3,6 +3,7 @@ package com.example.nimesha.memifyx;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,9 +18,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import static android.R.attr.password;
 import static com.example.nimesha.memifyx.R.id.signoutbtn;
+import static com.example.nimesha.memifyx.R.id.username;
+import static com.example.nimesha.memifyx.Signup.FB_DATABASE_PATH_user;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private Boolean exit = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText username = (EditText) findViewById(R.id.username);
         final EditText pass = (EditText) findViewById(R.id.password);
+
 
         Button signinBtn = (Button) findViewById(R.id.signinbtn);
         Button signupredir = (Button) findViewById(R.id.signupredir);
@@ -132,17 +142,21 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-        editor.putString("username", email);
-        editor.apply();
-
         String newEmail = email + "@memify.com";
+        final String emailx = email;    //to give access to the shared pref
         mAuth.signInWithEmailAndPassword(newEmail, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+                            //mUserDatabaseRef.child(emailx).child("swipes").getI;
+
+                            SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("username", emailx);
+                            editor.commit();
+
                             Log.d(TAG, "signInWithEmail:success");
                             Intent intent = new Intent(MainActivity.this, decision_point.class);
                             startActivity(intent);
