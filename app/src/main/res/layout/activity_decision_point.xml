@@ -29,4 +29,12 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="signout"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="368dp" />
 </android.support.constraint.ConstraintLayout>

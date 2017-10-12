@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.like.LikeButton;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -32,6 +33,7 @@ public class MemeSlider extends AppCompatActivity {
     ImageView imgview1;
     TextView ImgName;
     private ProgressDialog progressDialog;
+    LikeButton likebtn;
 
     public static String TAG ="MemeSlider";
 
@@ -45,10 +47,13 @@ public class MemeSlider extends AppCompatActivity {
 
         imgview1 = (ImageView) findViewById(R.id.imageView2);
         ImgName = (TextView) findViewById(R.id.ImgName);
+        likebtn = (LikeButton) findViewById(R.id.like_button);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Please wait loading list image....");
+        progressDialog.setMessage("Please wait....");
         progressDialog.show();
+
+        likebtn.setEnabled(false);
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -93,7 +98,10 @@ public class MemeSlider extends AppCompatActivity {
     }
 
     public void changeImg(int count) {
+        likebtn.setLiked(false);
+        likebtn.setEnabled(false);
         Picasso.with(this).load(ImageArray.get(count).getUrl()).fit().into(imgview1);
         ImgName.setText(ImageArray.get(count).getName());
+        likebtn.setEnabled(true);
     }
 }
