@@ -1,16 +1,28 @@
 package com.example.nimesha.memifyx;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,7 +30,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,11 +57,19 @@ import java.util.Iterator;
 import javax.net.ssl.HttpsURLConnection;
 
 import static android.R.attr.button;
+import static com.example.nimesha.memifyx.Signup.FB_DATABASE_PATH_user;
 
 public class typeButtonsActivity extends AppCompatActivity {
     static int buttonStaus[]=new int [4];
     String questionId;
     String userName;
+
+    TextView tv;
+
+    SharedPreferences prefs;
+
+    int swipes;
+    int count;
 
     Button ButtonSubmit;
     Button ButtonObscene;
@@ -53,11 +78,35 @@ public class typeButtonsActivity extends AppCompatActivity {
     Button ButtonThreat;
     JSONObject theAnswer;
     JSONObject finalAnswer ;
+    String username;
+
+    private DatabaseReference mUserDatabaseRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type_buttons);
+
+        mUserDatabaseRef = FirebaseDatabase.getInstance().getReference(FB_DATABASE_PATH_user);
+
+        SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
+        username = prefs.getString("username", "User not found");
+
+        mUserDatabaseRef.child(username).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                swipes = dataSnapshot.child("swipes").getValue(Integer.class);
+                count=dataSnapshot.child("count").getValue(Integer.class);
+                Log.d("swipes",""+swipes);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        swipes = prefs.getInt("swipes", -99);
+
         Intent intent=getIntent();
         String theAnswerString=intent.getStringExtra("theAnswer");
         questionId=intent.getStringExtra("questionId");
@@ -68,7 +117,6 @@ public class typeButtonsActivity extends AppCompatActivity {
         ButtonIdentityHate =(Button) findViewById(R.id.ButtonIdentityHate);
         ButtonInsult =(Button) findViewById(R.id.ButtonInsult);
         ButtonThreat =(Button) findViewById(R.id.ButtonThreat);
-
 
 
         try{
@@ -131,6 +179,15 @@ public class typeButtonsActivity extends AppCompatActivity {
         ButtonSubmit.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
+                        DatabaseReference user=mUserDatabaseRef.child(username);
+                        swipes+=1;
+                        count+=1;
+                        user.child("swipes").setValue(swipes);
+                        user.child("count").setValue(count);
+                        Log.d("swipes:count"," "+swipes+" : "+count);
+
+
+
                         try {
                             JSONObject JsonObscene = new JSONObject();
                             JsonObscene.put("enumAnswer", getObsceneLevel());
@@ -154,9 +211,12 @@ public class typeButtonsActivity extends AppCompatActivity {
                             Log.d("finalAnswer",finalAnswer.getString("answer"));
 
                             PostAnotation postAnotation=new PostAnotation();
-                            postAnotation.setUrl("https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/questions/"+questionId+"/answers/"+userName);
+                            String newUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/questions/"+questionId+"/answers/"+userName;
+                            String oldUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/questions/"+questionId+"/answers/"+userName;
+                            postAnotation.setUrl(newUrl);
                             postAnotation.execute();
 
+                            //wp_v2_x2000_XXXXX
 
                             for (int i: buttonStaus){
                                 i=0;
@@ -164,7 +224,7 @@ public class typeButtonsActivity extends AppCompatActivity {
                             onBackPressed();
                         }
                         catch (Exception e){
-                            Log.d("finalAnswer","error while encording JSON");
+                            Log.d("finalAnswer","error while creating JSON");
 
                         }
 
@@ -175,6 +235,8 @@ public class typeButtonsActivity extends AppCompatActivity {
 
 
     }
+
+
 
     void ButtonClicked(Button b,int i,int[] colour ){
         buttonStaus[i]=(buttonStaus[i]+1)%3;
@@ -212,13 +274,13 @@ public class typeButtonsActivity extends AppCompatActivity {
     }
 
     public class PostAnotation extends AsyncTask<Void, Void, String> {
-        URL url;
+        String url;
         String response = null;
 
 
          public String setUrl(String url) {
             try {
-                this.url = new URL(url);
+                this.url = url;
                 return "successfully set";
 
 
@@ -233,41 +295,38 @@ public class typeButtonsActivity extends AppCompatActivity {
         protected String doInBackground(Void... voids) {
 
             try {
+                int TIMEOUT_MILLISEC = 10000;  // = 10 seconds
+                String postMessage=finalAnswer.toString(); //HERE_YOUR_POST_STRING.
+                HttpParams httpParams = new BasicHttpParams();
+                HttpConnectionParams.setConnectionTimeout(httpParams, TIMEOUT_MILLISEC);
+                HttpConnectionParams.setSoTimeout(httpParams, TIMEOUT_MILLISEC);
+                HttpClient client = new DefaultHttpClient(httpParams);
 
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(15000 /* milliseconds */);
-                conn.setConnectTimeout(15000 /* milliseconds */);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
+                HttpPost request = new HttpPost(url);
+                request.setEntity(new ByteArrayEntity(
+                        postMessage.toString().getBytes("UTF8")));
+                HttpResponse response = client.execute(request);
 
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(finalAnswer.toString());
+//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                conn.setReadTimeout(15000 /* milliseconds */);
+//                conn.setConnectTimeout(15000 /* milliseconds */);
+//                conn.setRequestMethod("POST");
+//                conn.setDoInput(true);
+//                conn.setDoOutput(true);
+//
+//                OutputStream os = conn.getOutputStream();
+//                BufferedWriter writer = new BufferedWriter(
+//                        new OutputStreamWriter(os, "UTF-8"));
+//                writer.write(finalAnswer.toString());
+//
+//                writer.flush();
+//                writer.close();
+//                os.close();
 
-                writer.flush();
-                writer.close();
-                os.close();
-
-                int responseCode = conn.getResponseCode();
+                int responseCode=response.getStatusLine().getStatusCode();
 
                 if (responseCode == HttpsURLConnection.HTTP_OK) {
-
-                    BufferedReader in = new BufferedReader(new
-                            InputStreamReader(
-                            conn.getInputStream()));
-                    Log.d("json", "" + in);
-                    StringBuffer sb = new StringBuffer("");
-                    String line = "";
-
-                    while ((line = in.readLine()) != null) {
-                        sb.append(line);
-                        break;
-                    }
-
-                    in.close();
-                    return sb.toString();
+                    return "Successfully Sent";
 
                 } else {
                     return new String("false : " + responseCode);
@@ -281,7 +340,8 @@ public class typeButtonsActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             try {
-                Log.d("AnswerSent", finalAnswer.getString("answer"));
+
+                Log.d("AnswerSent", questionId+"-->"+finalAnswer.getString("answer"));
             }
 
             catch(Exception e){
@@ -289,8 +349,21 @@ public class typeButtonsActivity extends AppCompatActivity {
             }
 
             response = result;
+            Log.d("SendingReport", result);
+
         }
 
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        tv = new TextView(this);
+
+        tv.setText("$wipes: " +swipes);
+        tv.setTextColor(getResources().getColor(R.color.colorAccent));
+        tv.setPadding(5, 0, 5, 0);
+        tv.setTypeface(null, Typeface.BOLD);
+        tv.setTextSize(20);
+        menu.add(0, 0, 1, "swipes").setActionView(tv).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return true;
     }
 
 }
