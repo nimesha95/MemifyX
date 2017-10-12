@@ -4,11 +4,21 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
-
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:gravity="center">
     <ImageView
         android:id="@+id/imgView"
         android:layout_width="300dp"
         android:layout_height="300dp" />
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:gravity="center">
 
     <TextView
         android:layout_width="match_parent"
@@ -16,4 +26,7 @@
         android:layout_gravity="center"
         android:text="Image Name"
         android:id="@+id/tvImageName"/>
+
+
+    </TableRow>
 </LinearLayout>

@@ -420,7 +420,6 @@ public class TextRating extends AppCompatActivity{
 
             AsyncTaskRunner runner = new AsyncTaskRunner();
             runner.execute();
-            tv.setText("$wipes: "+swipes);
 
             //SubmitBtn.setClickable(false);
             //SubmitBtn.setEnabled(false);
