@@ -164,6 +164,7 @@ public class typeButtonsActivity extends AppCompatActivity {
                             onBackPressed();
                         }
                         catch (Exception e){
+                            Log.d("finalAnswer","error while encording JSON");
 
                         }
 
@@ -282,9 +283,11 @@ public class typeButtonsActivity extends AppCompatActivity {
             try {
                 Log.d("AnswerSent", finalAnswer.getString("answer"));
             }
+
             catch(Exception e){
                 Log.d("AnswerSent", "failed to sent");
             }
+
             response = result;
         }
 
