@@ -15,13 +15,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import static com.example.nimesha.memifyx.Landing.FB_DATABASE_PATH;
 
 public class Signup extends AppCompatActivity {
 
     private static final String TAG = "signup";
+    public static final String FB_DATABASE_PATH_user = "users";
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mUserDatabaseRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,7 @@ public class Signup extends AppCompatActivity {
         Button signupBtn = (Button) findViewById(R.id.signup);
 
         mAuth = FirebaseAuth.getInstance();
+        mUserDatabaseRef = FirebaseDatabase.getInstance().getReference(FB_DATABASE_PATH_user);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -83,6 +90,7 @@ public class Signup extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
+
         final String newEmail = email + "@memify.com";
         mAuth.createUserWithEmailAndPassword(newEmail, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -93,6 +101,12 @@ public class Signup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(Signup.this,user.getEmail()+" Registeration Succesfull!",Toast.LENGTH_SHORT).show();
+
+                            //sets user info on firebase
+                            mUserDatabaseRef.child(email).child("count").setValue(0);
+                            mUserDatabaseRef.child(email).child("swipes").setValue(10);
+
+
                             signin(newEmail, password);
                         }
 
