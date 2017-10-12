@@ -57,6 +57,7 @@ public class TextRating extends AppCompatActivity{
     ScrollView scrollViewQuestionText;
     SmileRating smileRating;
     CheckBox NotEnglishCheckBox;
+    Question theQuestion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +70,7 @@ public class TextRating extends AppCompatActivity{
         textViewQuestionText = (TextView) findViewById(R.id.textViewQuestionText);
         SubmitBtn = (Button) findViewById(R.id.button4);
         NotEnglishCheckBox = (CheckBox) findViewById (R.id.checkBox);
-        setQuestion();
+        //setQuestion();
         setProgressBarIndeterminateVisibility(true);
         scrollViewQuestionText.setOnTouchListener(new OnSwipeTouchListener(TextRating.this) {
             public void onSwipeRight() {
@@ -82,6 +83,8 @@ public class TextRating extends AppCompatActivity{
                 Log.d(TAG,"Left");
 
                 setQuestion();
+                smileRating.setSelectedSmile(BaseRating.NONE,false);
+
             }
 
         });
@@ -147,8 +150,10 @@ public class TextRating extends AppCompatActivity{
         SubmitBtn.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
+                        Log.d("buildingJson","buildingJson....");
                         try {
                             if(NotEnglishCheckBox.isChecked()){
+                                Log.d("buildingJson","question is not NotInEnglish");
                                 JSONObject readility = new JSONObject();
                                 readility.put("enumAnswer", checkBoxStatus());
 
@@ -177,8 +182,14 @@ public class TextRating extends AppCompatActivity{
                                 JSONObject finalAnswer = new JSONObject();
                                 finalAnswer.put("answer",theAnswer);
                                 Log.d("finalAnswer",finalAnswer.getString("answer"));
+
+                                Toast.makeText(TextRating.this, "question marked as not in english or not understandable", Toast.LENGTH_SHORT).show();
+                                //add code to send the the answer post or move to button Activity
+                                setQuestion();
                             }
                             else {
+                                Log.d("buildingJson","question is In English");
+
                                 JSONObject readility = new JSONObject();
                                 readility.put("enumAnswer", checkBoxStatus());
 
@@ -192,12 +203,17 @@ public class TextRating extends AppCompatActivity{
 
                                 Intent intent = new Intent(TextRating.this, typeButtonsActivity.class);
                                 intent.putExtra("theAnswer", theAnswer.toString());
+                                Log.d("questionID",theQuestion.getQuestionID());
+                                intent.putExtra("questionId",theQuestion.getQuestionID());
                                 startActivity(intent);
+
                             }
+
+
                         }
                         catch (Exception e){
                             Toast.makeText(TextRating.this, "exception while building answer JSON", Toast.LENGTH_SHORT).show();
-
+                            Log.e("Some Tag", e.getMessage(), e);
                         }
 
 
@@ -206,30 +222,36 @@ public class TextRating extends AppCompatActivity{
         );
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setQuestion();
+    }
+
     private String checkBoxStatus(){
         if(NotEnglishCheckBox.isChecked()){
-            Log.d("checkBoxStatus","Yes");
-            return "Yes";
-        }
-        else{
             Log.d("checkBoxStatus","No");
             return "No";
+        }
+        else{
+            Log.d("checkBoxStatus","Yes");
+            return "Yes";
         }
 
     }
 
     private String Toxicity(){
         if(smileRating.getRating()==1 ||smileRating.getRating()==2){
-            Log.d("checkBoxStatus","Very");
+            Log.d("Toxicity","Very");
             return "Very";
         }
         else if(smileRating.getRating()==4 ||smileRating.getRating()==5){
-            Log.d("checkBoxStatus","NotAtAll");
+            Log.d("Toxicity","NotAtAll");
             return "NotAtAll";
         }
 
         else if (smileRating.getRating()==3){
-            Log.d("checkBoxStatus","Somewhat");
+            Log.d("Toxicity","Somewhat");
             return "Somewhat";
         }
         else return null;
@@ -325,7 +347,7 @@ public class TextRating extends AppCompatActivity{
 
 
                 }
-                Question theQuestion = questionList.get(0);
+                theQuestion = questionList.get(0);
                 questionList.remove(0);
                 textViewQuestionText.setText(theQuestion.getQuestion());// End Loop
                 linlaHeaderProgress.setVisibility(View.GONE);
@@ -353,7 +375,9 @@ public class TextRating extends AppCompatActivity{
 
         }
         else {
-            Question theQuestion = questionList.get(0);
+            NotEnglishCheckBox.setChecked(false);
+            smileRating.setSelected(false);
+            theQuestion = questionList.get(0);
             questionList.remove(0);
             scrollViewQuestionText.setVisibility(View.VISIBLE);
             textViewQuestionText.setText(theQuestion.getQuestion());
