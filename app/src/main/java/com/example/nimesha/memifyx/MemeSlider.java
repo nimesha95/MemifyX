@@ -17,17 +17,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MemeSlider extends AppCompatActivity {
 
     private DatabaseReference mDatabaseRef;
-    public List<String> ImageArray;
+    public List<ImageUpload> ImageArray;
     public int count = 1;
     public int back = 0;
 
     ImageView imgview1;
+    TextView ImgName;
     private ProgressDialog progressDialog;
 
     public static String TAG ="MemeSlider";
@@ -38,9 +41,10 @@ public class MemeSlider extends AppCompatActivity {
         setContentView(R.layout.activity_meme_slider);
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference(Landing.FB_DATABASE_PATH);
-        ImageArray = new ArrayList<>();
+        ImageArray = new ArrayList<ImageUpload>();
 
         imgview1 = (ImageView) findViewById(R.id.imageView2);
+        ImgName = (TextView) findViewById(R.id.ImgName);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait loading list image....");
@@ -53,10 +57,16 @@ public class MemeSlider extends AppCompatActivity {
                 //Fetch image data from firebase database
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     //ImageUpload class require default constructor
+                    Log.d("somestuff", "" + snapshot.getKey());
+
                     ImageUpload img = snapshot.getValue(ImageUpload.class);
-                    ImageArray.add(img.getUrl());
+
+                    Log.d("blaster", "" + img.getLike());
+                    ImageArray.add(img);
+
                     changeImg(0);
                     Log.d("imglist", "" + img.getUrl());
+                    mDatabaseRef.child("-Kvn3dDykKlLZ0wBC1v-").child("like").setValue(5);
                 }
             }
 
@@ -83,6 +93,7 @@ public class MemeSlider extends AppCompatActivity {
     }
 
     public void changeImg(int count) {
-        Picasso.with(this).load(ImageArray.get(count)).fit().into(imgview1);
+        Picasso.with(this).load(ImageArray.get(count).getUrl()).fit().into(imgview1);
+        ImgName.setText(ImageArray.get(count).getName());
     }
 }

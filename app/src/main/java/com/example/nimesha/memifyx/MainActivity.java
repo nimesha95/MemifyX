@@ -1,6 +1,7 @@
 package com.example.nimesha.memifyx;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,8 @@ import static com.example.nimesha.memifyx.R.id.signoutbtn;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "signin";
+    public static final String MY_PREFS_NAME = "MyPrefsFile";       //used for shared preferance
+
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -128,6 +131,11 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
+
+        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+        editor.putString("username", email);
+        editor.apply();
+
         String newEmail = email + "@memify.com";
         mAuth.signInWithEmailAndPassword(newEmail, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
