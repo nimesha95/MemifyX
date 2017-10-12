@@ -1,6 +1,7 @@
 package com.example.nimesha.memifyx;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,7 +43,8 @@ public class typeButtonsActivity extends AppCompatActivity {
         ButtonObscene.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        int colour []={14935269,14784150,14745600};
+                        //int colour []={14935269,14784150,14745600};
+                        int colour []={Color.BLACK,Color.BLUE,Color.GREEN};
                         ButtonClicked(ButtonObscene,0,colour);
 
 
@@ -54,7 +56,7 @@ public class typeButtonsActivity extends AppCompatActivity {
 
     void ButtonClicked(Button b,int i,int[] colour ){
         buttonStaus[i]=(buttonStaus[i]+1)%3;
-        b.setBackgroundColor(i);
+        b.setBackgroundColor(colour[buttonStaus[i]]);
 
     }
 
