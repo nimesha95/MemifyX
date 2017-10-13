@@ -239,17 +239,10 @@ public class TextRating extends AppCompatActivity{
                             }
                             else {
                                 Log.d("buildingJson","question is In English");
-
-                                JSONObject readility = new JSONObject();
-                                readility.put("enumAnswer", checkBoxStatus());
-
-                                JSONObject ToxicityLevel = new JSONObject();
-                                ToxicityLevel.put("enumAnswer", Toxicity());
-
                                 JSONObject theAnswer = new JSONObject();
 
-                                theAnswer.put("readableAndInEnglish", readility);
-                                theAnswer.put("toxic", ToxicityLevel);
+                                theAnswer.put("readableAndInEnglish", checkBoxStatus());
+                                theAnswer.put("toxic", Toxicity());
 
                                 smileRating.setSelectedSmile(BaseRating.NONE, false);    //make smiley bar unratable
 
