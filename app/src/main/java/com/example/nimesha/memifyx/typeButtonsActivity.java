@@ -267,25 +267,14 @@ public class typeButtonsActivity extends AppCompatActivity {
 
 
                 try {
-                    JSONObject JsonObscene = new JSONObject();
-                    JsonObscene.put("enumAnswer", getObsceneLevel());
-
-                    JSONObject JsonIdentityHate = new JSONObject();
-                    JsonIdentityHate.put("enumAnswer", getIdentityHateLevel());
-
-                    JSONObject JsonInsult = new JSONObject();
-                    JsonInsult.put("enumAnswer", getInsultLevel());
-
-                    JSONObject JsonThreat = new JSONObject();
-                    JsonThreat.put("enumAnswer", getThreatLevel());
-
-                    theAnswer.put("obscene", JsonObscene);
-                    theAnswer.put("identityHate", JsonIdentityHate);
-                    theAnswer.put("insult", JsonInsult);
-                    theAnswer.put("threat", JsonThreat);
+                    theAnswer.put("obscene", getObsceneLevel());
+                    theAnswer.put("identityHate", getIdentityHateLevel());
+                    theAnswer.put("insult", getInsultLevel());
+                    theAnswer.put("threat", getThreatLevel());
 
                     finalAnswer = new JSONObject();
-                    finalAnswer.put("answer", theAnswer);
+                    finalAnswer.put("answer", theAnswer.toString());
+                    //finalAnswer.put("answer", theAnswer);
                     Log.d("finalAnswer", finalAnswer.getString("answer"));
 
                     PostAnotation postAnotation = new PostAnotation();
@@ -415,7 +404,7 @@ public class typeButtonsActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             try {
 
-                Log.d("AnswerSent", questionId+"-->"+finalAnswer.getString("answer"));
+                Log.d("AnswerSent", questionId+"-->"+finalAnswer.toString());
             }
 
             catch(Exception e){
