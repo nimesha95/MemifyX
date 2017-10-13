@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,31 +33,23 @@ import java.util.List;
 import static com.example.nimesha.memifyx.Signup.FB_DATABASE_PATH_user;
 
 public class MemeSlider extends AppCompatActivity {
-    SharedPreferences prefs;
-
-    private DatabaseReference mDatabaseRef;
+    public static String TAG = "MemeSlider";
     public List<ImageUpload> ImageArray;
     public int count = 1;
     public int back = 0;
-
+    public int curIndex = 0;
+    SharedPreferences prefs;
     String username;
     TextView tv;
-
     int swipes;
-
     ImageView imgview1;
     TextView ImgName;
     TextView likecount;
     Button MemeUploadBtn;
-
-    private ProgressDialog progressDialog;
     LikeButton likebtn;
     ImageUpload img;
-
-    public int curIndex = 0;
-
-    public static String TAG = "MemeSlider";
-
+    private DatabaseReference mDatabaseRef;
+    private ProgressDialog progressDialog;
     private DatabaseReference mUserDatabaseRef;
 
     @Override
@@ -146,24 +139,44 @@ public class MemeSlider extends AppCompatActivity {
 
         imgview1.setOnTouchListener(new OnSwipeTouchListener(MemeSlider.this) {
             public void onSwipeRight() {
+
                 likebtn.setLiked(false);
-                if (swipes>0) {
-                    Log.d(TAG, "Right");
-                    changeImg(back - 1);
-                    DatabaseReference user = mUserDatabaseRef.child(username);
-                    swipes -= 1;
-                    user.child("swipes").setValue(swipes);
-                    tv.setText("$wipes: " + swipes);
-                    //Toast.makeText(MemeSlider.this, "right", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(MemeSlider.this, "not enough $wipes ,go earn some", Toast.LENGTH_SHORT).show();
-                }
+
+                Log.d(TAG, "Right");
+                changeImg(back - 1);
+                //DatabaseReference user = mUserDatabaseRef.child(username);
+                //swipes -= 1;
+                //user.child("swipes").setValue(swipes);
+                //tv.setText("$wipes: " + swipes);
+                //Toast.makeText(MemeSlider.this, "right", Toast.LENGTH_SHORT).show();
+
+                NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MemeSlider.this);
+
+                dialogBuilder
+                        .withTitle("Out of Swipes")                                  //.withTitle(null)  no title
+                        .withTitleColor("#FFFFFF")                                  //def
+                        .withDividerColor("#11000000")                              //def
+                        .withMessage("Rate some text to earn more?")                     //.withMessage(null)  no Msg
+                        .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                        .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                        .withButton1Text("Yes! take me there!")                                      //def gone
+                        .setButton1Click(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(MemeSlider.this, TextRating.class);
+                                startActivity(intent);
+                            }
+                        })
+
+                        .show();
+
+                //Toast.makeText(MemeSlider.this, "not enough $wipes ,go earn some", Toast.LENGTH_SHORT).show();
+                
             }
 
             public void onSwipeLeft() {
                 likebtn.setLiked(false);
-                if (swipes>0) {
+                if (swipes > 0) {
                     Log.d(TAG, "Left");
                     changeImg(count);
                     DatabaseReference user = mUserDatabaseRef.child(username);
@@ -174,9 +187,28 @@ public class MemeSlider extends AppCompatActivity {
                     //Toast.makeText(MemeSlider.this, "left", Toast.LENGTH_SHORT).show();
                     back = count;
                     count++;
-                }
-                else {
-                    Toast.makeText(MemeSlider.this, "not enough $wipes, go earn some", Toast.LENGTH_SHORT).show();
+                } else {
+                    NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MemeSlider.this);
+
+                    dialogBuilder
+                            .withTitle("Out of Swipes")                                  //.withTitle(null)  no title
+                            .withTitleColor("#FFFFFF")                                  //def
+                            .withDividerColor("#11000000")                              //def
+                            .withMessage("Rate some text to earn more?")                     //.withMessage(null)  no Msg
+                            .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                            .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                            .withButton1Text("Yes! take me there!")                                      //def gone
+                            .setButton1Click(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(MemeSlider.this, TextRating.class);
+                                    startActivity(intent);
+                                }
+                            })
+
+                            .show();
+
+                    //Toast.makeText(MemeSlider.this, "not enough $wipes, go earn some", Toast.LENGTH_SHORT).show();
                 }
             }
 
