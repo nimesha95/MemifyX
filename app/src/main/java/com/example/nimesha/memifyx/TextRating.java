@@ -2,10 +2,16 @@ package com.example.nimesha.memifyx;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -15,6 +21,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.hsalf.smilerating.BaseRating;
 import com.hsalf.smilerating.SmileRating;
 
@@ -45,10 +56,15 @@ import static android.R.attr.name;
 import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 import static com.example.nimesha.memifyx.R.id.checkBox;
 import static com.example.nimesha.memifyx.R.id.username;
+import static com.example.nimesha.memifyx.Signup.FB_DATABASE_PATH_user;
 
 
 public class TextRating extends AppCompatActivity{
+    SharedPreferences prefs;
+    int swipes;
+    int count;
     boolean islistInit=false;
+    TextView tv;
     List<Question> questionList = new ArrayList<Question>();
     public static String TAG = "smilies";
     TextView textViewQuestionText;
@@ -57,19 +73,41 @@ public class TextRating extends AppCompatActivity{
     ScrollView scrollViewQuestionText;
     SmileRating smileRating;
     CheckBox NotEnglishCheckBox;
+    Question theQuestion;
+    String username;
+    private DatabaseReference mUserDatabaseRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         setContentView(R.layout.activity_text_rating);
+
+        SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
+        username = prefs.getString("username", "User not found");
+
+        mUserDatabaseRef = FirebaseDatabase.getInstance().getReference(FB_DATABASE_PATH_user);
+
+        mUserDatabaseRef.child(username).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                swipes = dataSnapshot.child("swipes").getValue(Integer.class);
+                count=dataSnapshot.child("count").getValue(Integer.class);
+                Log.d("swipes",""+swipes);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
         smileRating = (SmileRating) findViewById(R.id.smile_rating);
         linlaHeaderProgress = (LinearLayout) findViewById(R.id.linlaHeaderProgress);
         scrollViewQuestionText=(ScrollView) findViewById(R.id.scrollViewQuestionText);
         textViewQuestionText = (TextView) findViewById(R.id.textViewQuestionText);
         SubmitBtn = (Button) findViewById(R.id.button4);
         NotEnglishCheckBox = (CheckBox) findViewById (R.id.checkBox);
-        setQuestion();
+        //setQuestion();
         setProgressBarIndeterminateVisibility(true);
         scrollViewQuestionText.setOnTouchListener(new OnSwipeTouchListener(TextRating.this) {
             public void onSwipeRight() {
@@ -82,6 +120,8 @@ public class TextRating extends AppCompatActivity{
                 Log.d(TAG,"Left");
 
                 setQuestion();
+                smileRating.setSelectedSmile(BaseRating.NONE,false);
+
             }
 
         });
@@ -147,38 +187,59 @@ public class TextRating extends AppCompatActivity{
         SubmitBtn.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
+                        Log.d("buildingJson","buildingJson....");
                         try {
                             if(NotEnglishCheckBox.isChecked()){
+
+                                DatabaseReference user=mUserDatabaseRef.child(username);
+                                swipes+=1;
+                                count+=1;
+                                user.child("swipes").setValue(swipes);
+                                user.child("count").setValue(count);
+
+
+                                Log.d("buildingJson","question is not NotInEnglish");
                                 JSONObject readility = new JSONObject();
                                 readility.put("enumAnswer", checkBoxStatus());
 
-                                JSONObject ToxicityLevel = new JSONObject();
-                                ToxicityLevel.put("enumAnswer", "");
-
-                                JSONObject JsonObscene = new JSONObject();
-                                JsonObscene.put("enumAnswer", "");
-
-                                JSONObject JsonIdentityHate = new JSONObject();
-                                JsonIdentityHate.put("enumAnswer", "");
-
-                                JSONObject JsonInsult = new JSONObject();
-                                JsonInsult.put("enumAnswer", "");
-
-                                JSONObject JsonThreat = new JSONObject();
-                                JsonThreat.put("enumAnswer", "");
-
                                 JSONObject theAnswer = new JSONObject();
 
-                                theAnswer.put("obscene",JsonObscene);
-                                theAnswer.put("identityHate",JsonIdentityHate);
-                                theAnswer.put("insult",JsonInsult);
-                                theAnswer.put("threat", JsonThreat);
+                                theAnswer.put("readableAndInEnglish", readility);
+
+//                                JSONObject ToxicityLevel = new JSONObject();
+//                                ToxicityLevel.put("enumAnswer", "");
+//
+//                                JSONObject JsonObscene = new JSONObject();
+//                                JsonObscene.put("enumAnswer", "");
+//
+//                                JSONObject JsonIdentityHate = new JSONObject();
+//                                JsonIdentityHate.put("enumAnswer", "");
+//
+//                                JSONObject JsonInsult = new JSONObject();
+//                                JsonInsult.put("enumAnswer", "");
+//
+//                                JSONObject JsonThreat = new JSONObject();
+//                                JsonThreat.put("enumAnswer", "");
+
+
+//                                theAnswer.put("obscene",JsonObscene);
+//                                theAnswer.put("identityHate",JsonIdentityHate);
+//                                theAnswer.put("insult",JsonInsult);
+//                                theAnswer.put("threat", JsonThreat);
 
                                 JSONObject finalAnswer = new JSONObject();
                                 finalAnswer.put("answer",theAnswer);
                                 Log.d("finalAnswer",finalAnswer.getString("answer"));
+
+                                Toast.makeText(TextRating.this, "question marked as not in english or not understandable", Toast.LENGTH_SHORT).show();
+                                //add code to send the the answer post or move to button Activity
+
+
+                                setQuestion();
                             }
                             else {
+                                Log.d("buildingJson","question is In English");
+
                                 JSONObject readility = new JSONObject();
                                 readility.put("enumAnswer", checkBoxStatus());
 
@@ -192,12 +253,17 @@ public class TextRating extends AppCompatActivity{
 
                                 Intent intent = new Intent(TextRating.this, typeButtonsActivity.class);
                                 intent.putExtra("theAnswer", theAnswer.toString());
+                                Log.d("questionID",theQuestion.getQuestionID());
+                                intent.putExtra("questionId",theQuestion.getQuestionID());
                                 startActivity(intent);
+
                             }
+
+
                         }
                         catch (Exception e){
                             Toast.makeText(TextRating.this, "exception while building answer JSON", Toast.LENGTH_SHORT).show();
-
+                            Log.e("Some Tag", e.getMessage(), e);
                         }
 
 
@@ -206,30 +272,36 @@ public class TextRating extends AppCompatActivity{
         );
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setQuestion();
+    }
+
     private String checkBoxStatus(){
         if(NotEnglishCheckBox.isChecked()){
-            Log.d("checkBoxStatus","Yes");
-            return "Yes";
-        }
-        else{
             Log.d("checkBoxStatus","No");
             return "No";
+        }
+        else{
+            Log.d("checkBoxStatus","Yes");
+            return "Yes";
         }
 
     }
 
     private String Toxicity(){
         if(smileRating.getRating()==1 ||smileRating.getRating()==2){
-            Log.d("checkBoxStatus","Very");
+            Log.d("Toxicity","Very");
             return "Very";
         }
         else if(smileRating.getRating()==4 ||smileRating.getRating()==5){
-            Log.d("checkBoxStatus","NotAtAll");
+            Log.d("Toxicity","NotAtAll");
             return "NotAtAll";
         }
 
         else if (smileRating.getRating()==3){
-            Log.d("checkBoxStatus","Somewhat");
+            Log.d("Toxicity","Somewhat");
             return "Somewhat";
         }
         else return null;
@@ -252,7 +324,9 @@ public class TextRating extends AppCompatActivity{
 
         @Override
         protected String doInBackground(String... params) {
-            String url = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/next10_unanswered_questions";
+            String newUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/next10_unanswered_questions";
+            String oldUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/next10_unanswered_questions";
+            String url = newUrl;
 
             ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
 
@@ -325,7 +399,7 @@ public class TextRating extends AppCompatActivity{
 
 
                 }
-                Question theQuestion = questionList.get(0);
+                theQuestion = questionList.get(0);
                 questionList.remove(0);
                 textViewQuestionText.setText(theQuestion.getQuestion());// End Loop
                 linlaHeaderProgress.setVisibility(View.GONE);
@@ -353,11 +427,25 @@ public class TextRating extends AppCompatActivity{
 
         }
         else {
-            Question theQuestion = questionList.get(0);
+            tv.setText("$wipes: "+swipes);
+            NotEnglishCheckBox.setChecked(false);
+            smileRating.setSelected(false);
+            theQuestion = questionList.get(0);
             questionList.remove(0);
             scrollViewQuestionText.setVisibility(View.VISIBLE);
             textViewQuestionText.setText(theQuestion.getQuestion());
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        tv = new TextView(this);
+        tv.setText("Fetching...");
+        tv.setTextColor(Color.WHITE);
+        tv.setPadding(5, 0, 5, 0);
+        tv.setTypeface(null, Typeface.BOLD);
+        tv.setTextSize(20);
+        menu.add(0, 0, 1, "swipes").setActionView(tv).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return true;
     }
 
 }
