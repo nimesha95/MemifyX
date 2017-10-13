@@ -23,9 +23,8 @@ import static com.example.nimesha.memifyx.Landing.FB_DATABASE_PATH;
 
 public class Signup extends AppCompatActivity {
 
-    private static final String TAG = "signup";
     public static final String FB_DATABASE_PATH_user = "users";
-
+    private static final String TAG = "signup";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mUserDatabaseRef;
@@ -139,7 +138,7 @@ public class Signup extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
 
-                            Intent intent = new Intent(Signup.this, decision_point.class);
+                            Intent intent = new Intent(Signup.this, activity_terms.class);
                             startActivity(intent);
 
                             FirebaseUser user = mAuth.getCurrentUser();
