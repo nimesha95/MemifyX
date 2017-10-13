@@ -3,6 +3,7 @@ package com.example.nimesha.memifyx;
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -25,8 +26,10 @@ public class ImageListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_list);
+
         imgList = new ArrayList<>();
         lv = (ListView) findViewById(R.id.listViewImage);
+
         //show progress dialog during list image loading
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait loading list image....");
@@ -44,6 +47,7 @@ public class ImageListActivity extends AppCompatActivity {
                     //ImageUpload class require default constructor
                     ImageUpload img = snapshot.getValue(ImageUpload.class);
                     imgList.add(img);
+                    Log.d("imglist",""+img.getUrl());
                 }
 
                 //Init adapter

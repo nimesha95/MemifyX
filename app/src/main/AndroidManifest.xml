@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".TextRating"
+            android:name=".MainActivity"
             android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,13 +24,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Landing" />
-        <activity android:name=".Signup" />
-        <activity android:name=".ImageListActivity" />
-        <activity android:name=".activity_terms" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".button_grp" />
-        <activity android:name=".tutorial"></activity>
+        <activity
+            android:name=".Landing"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Signup"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ImageListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TextRating"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".typeButtonsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MemeSlider"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".decision_point"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

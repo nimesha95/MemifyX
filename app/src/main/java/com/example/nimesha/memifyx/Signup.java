@@ -1,6 +1,7 @@
 package com.example.nimesha.memifyx;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,13 +16,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import static com.example.nimesha.memifyx.Landing.FB_DATABASE_PATH;
 
 public class Signup extends AppCompatActivity {
 
     private static final String TAG = "signup";
+    public static final String FB_DATABASE_PATH_user = "users";
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference mUserDatabaseRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,7 @@ public class Signup extends AppCompatActivity {
         Button signupBtn = (Button) findViewById(R.id.signup);
 
         mAuth = FirebaseAuth.getInstance();
+        mUserDatabaseRef = FirebaseDatabase.getInstance().getReference(FB_DATABASE_PATH_user);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -84,7 +92,8 @@ public class Signup extends AppCompatActivity {
             return;
         }
 
-        mAuth.createUserWithEmailAndPassword(email, password)
+        final String newEmail = email + "@memify.com";
+        mAuth.createUserWithEmailAndPassword(newEmail, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -93,7 +102,18 @@ public class Signup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(Signup.this,user.getEmail()+" Registeration Succesfull!",Toast.LENGTH_SHORT).show();
-                            signin(email,password);
+
+                            //sets user info on firebase
+                            mUserDatabaseRef.child(email).child("count").setValue(0);
+                            mUserDatabaseRef.child(email).child("swipes").setValue(10);
+
+                            SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("username", email);
+                            editor.putInt("swipes", 10);     //at the signup user is given 10 swipes
+                            editor.commit();
+
+                            signin(newEmail, password);
                         }
 
                         if (!task.isSuccessful()) {
@@ -111,7 +131,6 @@ public class Signup extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -119,7 +138,8 @@ public class Signup extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            Intent intent = new Intent(Signup.this, Landing.class);
+
+                            Intent intent = new Intent(Signup.this, decision_point.class);
                             startActivity(intent);
 
                             FirebaseUser user = mAuth.getCurrentUser();

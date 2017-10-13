@@ -10,6 +10,8 @@ public class ImageUpload {
 
     public String name;
     public String url;
+    public int like;
+    public String key;
 
     public String getName() {
         return name;
@@ -19,10 +21,34 @@ public class ImageUpload {
         return url;
     }
 
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public ImageUpload(String name, String url) {
         this.name = name;
         this.url = url;
     }
 
+    public ImageUpload(String name, String url, int like) {
+        this.name = name;
+        this.url = url;
+        this.like = like;
+    }
+
     public ImageUpload(){}
 }
+
+
