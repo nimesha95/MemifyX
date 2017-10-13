@@ -82,7 +82,7 @@ public class TextRating extends AppCompatActivity{
         SubmitBtn.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        Intent inten = new Intent(TextRating.this,button_grp.class);
+                        Intent inten = new Intent(TextRating.this,tutorial.class);
                         startActivity(inten);
                     }
                 }
