@@ -60,7 +60,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="55dp"
-            android:text="Upload" />
+            android:text="Upload"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_bg_rounded_corners"/>
 
     </TableRow>
 
