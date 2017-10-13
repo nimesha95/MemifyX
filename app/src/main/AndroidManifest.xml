@@ -51,8 +51,13 @@
         <activity
             android:name=".tutorial"
             android:screenOrientation="portrait" />
-        <activity android:name=".Achievements" />
-        <activity android:name=".GettingStarted"></activity>
+        <activity
+            android:name=".Achievements"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GettingStarted"
+            android:screenOrientation="portrait" />
+        <activity android:name=".GettingStarted2"></activity>
     </application>
 
 </manifest>
