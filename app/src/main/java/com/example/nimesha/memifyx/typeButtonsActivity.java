@@ -13,8 +13,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,11 +73,11 @@ public class typeButtonsActivity extends AppCompatActivity {
     int swipes;
     int count;
 
-    Button ButtonSubmit;
-    Button ButtonObscene;
-    Button ButtonIdentityHate;
-    Button ButtonInsult;
-    Button ButtonThreat;
+    ImageView ButtonSubmit;
+    ImageView ButtonObscene;
+    ImageView ButtonIdentityHate;
+    ImageView ButtonInsult;
+    ImageView ButtonThreat;
     JSONObject theAnswer;
     JSONObject finalAnswer ;
     String username;
@@ -112,12 +114,16 @@ public class typeButtonsActivity extends AppCompatActivity {
         questionId=intent.getStringExtra("questionId");
         userName="testUser";
         Log.d("theAnswer",theAnswerString);
-        ButtonSubmit =(Button) findViewById(R.id.ButtonSubmit);
-        ButtonObscene =(Button) findViewById(R.id.ButtonObscene);
-        ButtonIdentityHate =(Button) findViewById(R.id.ButtonIdentityHate);
-        ButtonInsult =(Button) findViewById(R.id.ButtonInsult);
-        ButtonThreat =(Button) findViewById(R.id.ButtonThreat);
+        ButtonSubmit =(ImageView) findViewById(R.id.btnsubmit);
+        ButtonObscene =(ImageView) findViewById(R.id.btnobscene);
+        ButtonIdentityHate =(ImageView) findViewById(R.id.btnidentityhate);
+        ButtonInsult =(ImageView) findViewById(R.id.btninsult);
+        ButtonThreat =(ImageView) findViewById(R.id.btnthreat);
 
+        ButtonObscene.setTag(1);
+        ButtonIdentityHate.setTag(1);
+        ButtonInsult.setTag(1);
+        ButtonThreat.setTag(1);
 
         try{
             theAnswer=new JSONObject(theAnswerString);}
@@ -125,123 +131,197 @@ public class typeButtonsActivity extends AppCompatActivity {
             Log.d("theAnswer","Error converting JSON");
 
         }
-        ButtonObscene.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        //int colour []={14935269,14784150,14745600};
-                        int colour []={Color.BLACK,Color.BLUE,Color.GREEN};
-                        ButtonClicked(ButtonObscene,0,colour);
-                    }
+
+
+        ButtonObscene.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+
+                ButtonIdentityHate.setTag(1);
+                ButtonInsult.setTag(1);
+                ButtonThreat.setTag(1);
+
+                if(ButtonObscene.getTag().equals(1)){
+                    ButtonObscene.setImageResource(R.drawable.btn_obscene_new);
+                    ButtonObscene.setTag(3);
                 }
-        );
-
-        ButtonThreat.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        //ButtonThreat.setBackgroundColor(14745600);
-                        ButtonThreat.getBackground().setColorFilter(Color.RED,PorterDuff.Mode.MULTIPLY);
-                    }
+//                else if(ButtonObscene.getTag().equals(2)){
+//                    ButtonObscene.setImageResource(R.drawable.btn_obscene_new_1);
+//                    ButtonObscene.setTag(3);
+//                }
+                else if(ButtonObscene.getTag().equals(3)){
+                    ButtonObscene.setImageResource(R.drawable.btn_obscene_new_2);
+                    ButtonObscene.setTag(4);
                 }
-        );
-        ButtonIdentityHate.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        //int colour []={14935269,14784150,14745600};
-                        int colour []={Color.BLACK,Color.BLUE,Color.GREEN};
-                        ButtonClicked(ButtonIdentityHate,1,colour);
-
-
-                    }
+                else{
+                    ButtonObscene.setImageResource(R.drawable.btn_obscene_new_3);
+                    ButtonObscene.setTag(1);
                 }
-        );
-        ButtonInsult.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        //int colour []={14935269,14784150,14745600};
-                        int colour []={Color.BLACK,Color.BLUE,Color.GREEN};
-                        ButtonClicked(ButtonInsult,2,colour);
 
+                ButtonClicked(ButtonObscene,0);
+                return false;
+            }
+        });
 
-                    }
+        ButtonIdentityHate.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+
+                ButtonObscene.setTag(1);
+                ButtonInsult.setTag(1);
+                ButtonThreat.setTag(1);
+
+                if(ButtonIdentityHate.getTag().equals(1)){
+                    ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_new);
+                    ButtonIdentityHate.setTag(3);
                 }
-        );
-        ButtonThreat.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        //int colour []={14935269,14784150,14745600};
-                        int colour []={Color.BLACK,Color.BLUE,Color.GREEN};
-                        ButtonClicked(ButtonThreat,3,colour);
-
-
-                    }
+//                else if(ButtonIdentityHate.getTag().equals(2)){
+//                    ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_new_1);
+//                    ButtonIdentityHate.setTag(3);
+//                }
+                else if(ButtonIdentityHate.getTag().equals(3)){
+                    ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_new_2);
+                    ButtonIdentityHate.setTag(4);
                 }
-        );
-        ButtonSubmit.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        DatabaseReference user=mUserDatabaseRef.child(username);
-                        swipes+=1;
-                        count+=1;
-                        user.child("swipes").setValue(swipes);
-                        user.child("count").setValue(count);
-                        Log.d("swipes:count"," "+swipes+" : "+count);
-
-
-
-                        try {
-                            JSONObject JsonObscene = new JSONObject();
-                            JsonObscene.put("enumAnswer", getObsceneLevel());
-
-                            JSONObject JsonIdentityHate = new JSONObject();
-                            JsonIdentityHate.put("enumAnswer", getIdentityHateLevel());
-
-                            JSONObject JsonInsult = new JSONObject();
-                            JsonInsult.put("enumAnswer", getInsultLevel());
-
-                            JSONObject JsonThreat = new JSONObject();
-                            JsonThreat.put("enumAnswer", getThreatLevel());
-
-                            theAnswer.put("obscene",JsonObscene);
-                            theAnswer.put("identityHate",JsonIdentityHate);
-                            theAnswer.put("insult",JsonInsult);
-                            theAnswer.put("threat", JsonThreat);
-
-                            finalAnswer=new JSONObject();
-                            finalAnswer.put("answer",theAnswer);
-                            Log.d("finalAnswer",finalAnswer.getString("answer"));
-
-                            PostAnotation postAnotation=new PostAnotation();
-                            String newUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/questions/"+questionId+"/answers/"+userName;
-                            String oldUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/questions/"+questionId+"/answers/"+userName;
-                            postAnotation.setUrl(newUrl);
-                            postAnotation.execute();
-
-                            //wp_v2_x2000_XXXXX
-
-                            for (int i: buttonStaus){
-                                i=0;
-                            }
-                            Toast.makeText(typeButtonsActivity.this, "Your response recorded", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
-                        }
-                        catch (Exception e){
-                            Log.d("finalAnswer","error while creating JSON");
-
-                        }
-
-
-                    }
+                else{
+                    ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_new_4);
+                    ButtonIdentityHate.setTag(1);
                 }
-        );
+
+                ButtonClicked(ButtonIdentityHate,1);
+                return false;
+            }
+        });
+
+        ButtonInsult.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+
+                ButtonObscene.setTag(1);
+                ButtonIdentityHate.setTag(1);
+                ButtonThreat.setTag(1);
+
+                if(ButtonInsult.getTag().equals(1)){
+                    ButtonInsult.setImageResource(R.drawable.btn_insult_new);
+                    ButtonInsult.setTag(3);
+                }
+//                else if(ButtonInsult.getTag().equals(2)){
+//                    ButtonInsult.setImageResource(R.drawable.btn_insult_new_1);
+//                    ButtonInsult.setTag(3);
+//                }
+                else if(ButtonInsult.getTag().equals(3)){
+                    ButtonInsult.setImageResource(R.drawable.btn_insult_new_2);
+                    ButtonInsult.setTag(4);
+                }
+                else{
+                    ButtonInsult.setImageResource(R.drawable.btn_insult_new_3);
+                    ButtonInsult.setTag(1);
+                }
+
+                ButtonClicked(ButtonInsult,2);
+                return false;
+            }
+        });
+
+        ButtonThreat.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+
+                if(ButtonThreat.getTag().equals(1)){
+                    ButtonThreat.setImageResource(R.drawable.btn_threat_new);
+                    ButtonThreat.setTag(3);
+                }
+//                else if(ButtonThreat.getTag().equals(2)){
+//                    ButtonThreat.setImageResource(R.drawable.btn_threat_new_1);
+//                    ButtonThreat.setTag(3);
+//                }
+                else if(ButtonThreat.getTag().equals(3)){
+                    ButtonThreat.setImageResource(R.drawable.btn_threat_new_2);
+                    ButtonThreat.setTag(4);
+                }
+                else{
+                    ButtonThreat.setImageResource(R.drawable.btn_threat_new_3);
+                    ButtonThreat.setTag(1);
+                }
+
+                ButtonClicked(ButtonThreat,3);
+                return false;
+            }
+        });
+
+        ButtonSubmit.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                DatabaseReference user=mUserDatabaseRef.child(username);
+                swipes+=1;
+                count+=1;
+                user.child("swipes").setValue(swipes);
+                user.child("count").setValue(count);
+                Log.d("swipes:count"," "+swipes+" : "+count);
+
+
+
+                try {
+                    JSONObject JsonObscene = new JSONObject();
+                    JsonObscene.put("enumAnswer", getObsceneLevel());
+
+                    JSONObject JsonIdentityHate = new JSONObject();
+                    JsonIdentityHate.put("enumAnswer", getIdentityHateLevel());
+
+                    JSONObject JsonInsult = new JSONObject();
+                    JsonInsult.put("enumAnswer", getInsultLevel());
+
+                    JSONObject JsonThreat = new JSONObject();
+                    JsonThreat.put("enumAnswer", getThreatLevel());
+
+                    theAnswer.put("obscene",JsonObscene);
+                    theAnswer.put("identityHate",JsonIdentityHate);
+                    theAnswer.put("insult",JsonInsult);
+                    theAnswer.put("threat", JsonThreat);
+
+                    finalAnswer=new JSONObject();
+                    finalAnswer.put("answer",theAnswer);
+                    Log.d("finalAnswer",finalAnswer.getString("answer"));
+
+                    PostAnotation postAnotation=new PostAnotation();
+                    String newUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/questions/"+questionId+"/answers/"+userName;
+                    String oldUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/questions/"+questionId+"/answers/"+userName;
+                    postAnotation.setUrl(newUrl);
+                    postAnotation.execute();
+
+                    //wp_v2_x2000_XXXXX
+
+                    for (int i: buttonStaus){
+                        i=0;
+                    }
+                    Toast.makeText(typeButtonsActivity.this, "Your response recorded", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }
+                catch (Exception e){
+                    Log.d("finalAnswer","error while creating JSON");
+
+                }
+                return false;
+            }
+        });
 
 
     }
 
 
 
-    void ButtonClicked(Button b,int i,int[] colour ){
+    void ButtonClicked(ImageView b,int i){
         buttonStaus[i]=(buttonStaus[i]+1)%3;
-        b.setBackgroundColor(colour[buttonStaus[i]]);
 
     }
 

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#48a999"
     android:gravity="bottom"
     android:orientation="vertical">
 
@@ -33,6 +34,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:orientation="vertical">
 
             <TableRow
@@ -48,6 +50,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:gravity="center_vertical|center"
+                android:textColor="#FFFFFF"
 
 
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vulputate eget quam quis feugiat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi eleifend ante eu ex tristique interdum. Nunc tempus ante ut tincidunt suscipit. Fusce tristique ante eu est vestibulum accumsan." />
@@ -67,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
+            android:textColor="#FFFFFF"
             android:text="cannot identify the text or not in english" />
 
     </TableRow>
@@ -93,8 +97,12 @@
 
         <Button
             android:id="@+id/button4"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="140dp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_bg_rounded_corners"
             android:enabled="false"
             android:text="submit" />
     </TableRow>

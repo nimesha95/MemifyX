@@ -109,6 +109,7 @@ public class Landing extends AppCompatActivity {
                     //Save image info in to firebase database
                     String uploadId = mDatabaseRef.push().getKey();
                     mDatabaseRef.child(uploadId).setValue(imageUpload);
+                    onBackPressed();
                 }
             })
                     .addOnFailureListener(new OnFailureListener() {

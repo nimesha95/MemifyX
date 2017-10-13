@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         Button signinBtn = (Button) findViewById(R.id.signinbtn);
         Button signupredir = (Button) findViewById(R.id.signupredir);
-        Button signoutBtn = (Button) findViewById(R.id.signoutbtn);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -91,14 +90,6 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        signoutBtn.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        FirebaseAuth.getInstance().signOut();
-                        Log.d(TAG, "User signed out");
-                    }
-                }
-        );
     }
 
     @Override
