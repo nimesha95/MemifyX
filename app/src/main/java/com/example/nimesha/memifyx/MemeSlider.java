@@ -144,32 +144,33 @@ public class MemeSlider extends AppCompatActivity {
 
                 Log.d(TAG, "Right");
                 changeImg(back - 1);
-                //DatabaseReference user = mUserDatabaseRef.child(username);
+                back = back - 1;
+                DatabaseReference user = mUserDatabaseRef.child(username);
                 //swipes -= 1;
-                //user.child("swipes").setValue(swipes);
+                user.child("swipes").setValue(swipes);
                 //tv.setText("$wipes: " + swipes);
                 //Toast.makeText(MemeSlider.this, "right", Toast.LENGTH_SHORT).show();
+                if (swipes < 1) {
+                    NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MemeSlider.this);
 
-                NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MemeSlider.this);
+                    dialogBuilder
+                            .withTitle("Out of Swipes")                                  //.withTitle(null)  no title
+                            .withTitleColor("#FFFFFF")                                  //def
+                            .withDividerColor("#11000000")                              //def
+                            .withMessage("Rate some text to earn more?")                     //.withMessage(null)  no Msg
+                            .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                            .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                            .withButton1Text("Yes! take me there!")                                      //def gone
+                            .setButton1Click(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(MemeSlider.this, TextRating.class);
+                                    startActivity(intent);
+                                }
+                            })
 
-                dialogBuilder
-                        .withTitle("Out of Swipes")                                  //.withTitle(null)  no title
-                        .withTitleColor("#FFFFFF")                                  //def
-                        .withDividerColor("#11000000")                              //def
-                        .withMessage("Rate some text to earn more?")                     //.withMessage(null)  no Msg
-                        .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
-                        .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
-                        .withButton1Text("Yes! take me there!")                                      //def gone
-                        .setButton1Click(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(MemeSlider.this, TextRating.class);
-                                startActivity(intent);
-                            }
-                        })
-
-                        .show();
-
+                            .show();
+                }
                 //Toast.makeText(MemeSlider.this, "not enough $wipes ,go earn some", Toast.LENGTH_SHORT).show();
 
             }

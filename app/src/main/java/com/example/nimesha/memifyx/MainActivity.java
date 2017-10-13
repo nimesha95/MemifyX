@@ -25,7 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import static android.R.attr.password;
-import static com.example.nimesha.memifyx.R.id.signoutbtn;
 import static com.example.nimesha.memifyx.R.id.username;
 import static com.example.nimesha.memifyx.Signup.FB_DATABASE_PATH_user;
 
