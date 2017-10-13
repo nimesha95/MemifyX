@@ -44,13 +44,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".decision_point"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity_terms"
             android:screenOrientation="portrait" />
         <activity
             android:name=".tutorial"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".Achievements"></activity>
     </application>
 
 </manifest>

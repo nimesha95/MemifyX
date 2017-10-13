@@ -93,6 +93,15 @@ public class decision_point extends AppCompatActivity {
                 }
         );
 
+        Acheivements.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(decision_point.this, Achievements.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
         signoutBtn.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
