@@ -60,13 +60,13 @@ import static com.example.nimesha.memifyx.Signup.FB_DATABASE_PATH_user;
 
 
 public class TextRating extends AppCompatActivity{
+    public static String TAG = "smilies";
     SharedPreferences prefs;
     int swipes;
     int count;
     boolean islistInit=false;
     TextView tv;
     List<Question> questionList = new ArrayList<Question>();
-    public static String TAG = "smilies";
     TextView textViewQuestionText;
     Button SubmitBtn;
     LinearLayout linlaHeaderProgress;
@@ -206,26 +206,6 @@ public class TextRating extends AppCompatActivity{
 
                                 theAnswer.put("readableAndInEnglish", readility);
 
-//                                JSONObject ToxicityLevel = new JSONObject();
-//                                ToxicityLevel.put("enumAnswer", "");
-//
-//                                JSONObject JsonObscene = new JSONObject();
-//                                JsonObscene.put("enumAnswer", "");
-//
-//                                JSONObject JsonIdentityHate = new JSONObject();
-//                                JsonIdentityHate.put("enumAnswer", "");
-//
-//                                JSONObject JsonInsult = new JSONObject();
-//                                JsonInsult.put("enumAnswer", "");
-//
-//                                JSONObject JsonThreat = new JSONObject();
-//                                JsonThreat.put("enumAnswer", "");
-
-
-//                                theAnswer.put("obscene",JsonObscene);
-//                                theAnswer.put("identityHate",JsonIdentityHate);
-//                                theAnswer.put("insult",JsonInsult);
-//                                theAnswer.put("threat", JsonThreat);
 
                                 JSONObject finalAnswer = new JSONObject();
                                 finalAnswer.put("answer",theAnswer);
@@ -302,8 +282,39 @@ public class TextRating extends AppCompatActivity{
         else return null;
     }
 
+    void setQuestion() {
+        if (questionList.isEmpty()) {
 
 
+            AsyncTaskRunner runner = new AsyncTaskRunner();
+            runner.execute();
+
+            //SubmitBtn.setClickable(false);
+            //SubmitBtn.setEnabled(false);
+            //Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
+
+        } else {
+            tv.setText("$wipes: " + swipes);
+            NotEnglishCheckBox.setChecked(false);
+            smileRating.setSelected(false);
+            theQuestion = questionList.get(0);
+            questionList.remove(0);
+            scrollViewQuestionText.setVisibility(View.VISIBLE);
+            textViewQuestionText.setText(theQuestion.getQuestion());
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        tv = new TextView(this);
+        tv.setText("Fetching...");
+        tv.setTextColor(Color.WHITE);
+        tv.setPadding(5, 0, 5, 0);
+        tv.setTypeface(null, Typeface.BOLD);
+        tv.setTextSize(20);
+        menu.add(0, 0, 1, "swipes").setActionView(tv).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return true;
+    }
 
     private class AsyncTaskRunner extends AsyncTask<String,Void, String> {
 
@@ -407,40 +418,6 @@ public class TextRating extends AppCompatActivity{
 
 
 
-    }
-
-    void setQuestion() {
-        if (questionList.isEmpty()) {
-
-
-            AsyncTaskRunner runner = new AsyncTaskRunner();
-            runner.execute();
-
-            //SubmitBtn.setClickable(false);
-            //SubmitBtn.setEnabled(false);
-            //Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
-
-        }
-        else {
-            tv.setText("$wipes: "+swipes);
-            NotEnglishCheckBox.setChecked(false);
-            smileRating.setSelected(false);
-            theQuestion = questionList.get(0);
-            questionList.remove(0);
-            scrollViewQuestionText.setVisibility(View.VISIBLE);
-            textViewQuestionText.setText(theQuestion.getQuestion());
-        }
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        tv = new TextView(this);
-        tv.setText("Fetching...");
-        tv.setTextColor(Color.WHITE);
-        tv.setPadding(5, 0, 5, 0);
-        tv.setTypeface(null, Typeface.BOLD);
-        tv.setTextSize(20);
-        menu.add(0, 0, 1, "swipes").setActionView(tv).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        return true;
     }
 
 }
