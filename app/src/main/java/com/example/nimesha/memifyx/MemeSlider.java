@@ -171,7 +171,7 @@ public class MemeSlider extends AppCompatActivity {
                         .show();
 
                 //Toast.makeText(MemeSlider.this, "not enough $wipes ,go earn some", Toast.LENGTH_SHORT).show();
-                
+
             }
 
             public void onSwipeLeft() {

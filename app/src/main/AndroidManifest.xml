@@ -45,6 +45,12 @@
         <activity
             android:name=".decision_point"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity_terms"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".tutorial"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -24,6 +24,9 @@ public class decision_point extends AppCompatActivity {
     Button MemesBtn;
     Button TextRatingBtn;
     Button signoutBtn;
+    Button MemeUploadBtn;
+    Button GettingStartedBtn;
+    Button Acheivements;
 
     private DatabaseReference mUserDatabaseRef;
 
@@ -35,6 +38,9 @@ public class decision_point extends AppCompatActivity {
         MemesBtn = (Button) findViewById(R.id.MemesBtn);
         TextRatingBtn = (Button) findViewById(R.id.TxtRatingBtn);
         signoutBtn = (Button) findViewById(R.id.button2);
+        MemeUploadBtn = (Button) findViewById(R.id.MemeUploadBtn);
+        GettingStartedBtn = (Button) findViewById(R.id.GettingStartedBtn);
+        Acheivements = (Button) findViewById(R.id.Acheivements);
 
         mUserDatabaseRef = FirebaseDatabase.getInstance().getReference(FB_DATABASE_PATH_user);
 
@@ -73,6 +79,15 @@ public class decision_point extends AppCompatActivity {
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         Intent intent = new Intent(decision_point.this,TextRating.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
+        MemeUploadBtn.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent intent = new Intent(decision_point.this, Landing.class);
                         startActivity(intent);
                     }
                 }

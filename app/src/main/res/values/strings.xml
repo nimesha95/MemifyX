@@ -11,6 +11,11 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="does_really_work_with_fragments">Show toast</string>
+    <string name="showcase_fragment_title">ShowcaseView and Fragments?</string>
+    <string name="showcase_fragment_title_2">Even works with transactions</string>
+    <string name="showcase_fragment_message">Click the button to find out whether this works with Fragments, too.</string>
+    <string name="showcase_fragment_message_2">Just remember to create the ShowcaseView during or after onActivityCreated()</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
