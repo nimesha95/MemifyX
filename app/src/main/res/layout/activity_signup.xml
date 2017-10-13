@@ -33,7 +33,7 @@
         android:layout_marginTop="20dp"
         android:ems="10"
         android:fontFamily="sans-serif"
-        android:hint="Password"
+        android:hint="Password (6 characters)"
         android:inputType="textPassword"
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
