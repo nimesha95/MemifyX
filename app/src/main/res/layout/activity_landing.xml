@@ -8,27 +8,35 @@
     tools:context="com.example.nimesha.memifyx.Landing">
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="Browse image to upload"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="140dp"
+        android:text="Browse image"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/button_bg_rounded_corners"
         android:onClick="btnBrowse_Click"/>
-
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:id="@+id/imageView"
-        android:hint="Image Name"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtImageName"/>
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:hint="Image Name" />
+
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:text="Upload Image"
+        android:textColor="#FFFFFF"
+        android:layout_marginLeft="140dp"
+        android:background="@drawable/button_bg_rounded_corners"
         android:onClick="btnUpload_Click"/>
 
     <Button

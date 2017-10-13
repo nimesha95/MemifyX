@@ -8,8 +8,4 @@
         <item name="colorAccent">#48a999</item>
     </style>
 
-    <style name="decisionTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <item name="colorBackground"></item>
-    </style>
-
 </resources>
