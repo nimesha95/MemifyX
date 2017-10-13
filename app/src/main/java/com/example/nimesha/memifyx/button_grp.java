@@ -33,19 +33,16 @@ public class button_grp extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
 
-                if(imageView1.getTag().equals(1)){
+                if (imageView1.getTag().equals(1)) {
                     imageView1.setImageResource(R.drawable.btn_obscene_new);
                     imageView1.setTag(2);
-                }
-                else if(imageView1.getTag().equals(2)){
+                } else if (imageView1.getTag().equals(2)) {
                     imageView1.setImageResource(R.drawable.btn_obscene_new_1);
                     imageView1.setTag(3);
-                }
-                else if(imageView1.getTag().equals(3)){
+                } else if (imageView1.getTag().equals(3)) {
                     imageView1.setImageResource(R.drawable.btn_obscene_new_2);
                     imageView1.setTag(4);
-                }
-                else{
+                } else {
                     imageView1.setImageResource(R.drawable.btn_obscene_new_3);
                     imageView1.setTag(1);
                 }
@@ -59,19 +56,16 @@ public class button_grp extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
 
-                if(imageView2.getTag().equals(1)){
+                if (imageView2.getTag().equals(1)) {
                     imageView2.setImageResource(R.drawable.btn_insult_new);
                     imageView2.setTag(2);
-                }
-                else if(imageView2.getTag().equals(2)){
+                } else if (imageView2.getTag().equals(2)) {
                     imageView2.setImageResource(R.drawable.btn_insult_new_1);
                     imageView2.setTag(3);
-                }
-                else if(imageView2.getTag().equals(3)){
+                } else if (imageView2.getTag().equals(3)) {
                     imageView2.setImageResource(R.drawable.btn_insult_new_2);
                     imageView2.setTag(4);
-                }
-                else{
+                } else {
                     imageView2.setImageResource(R.drawable.btn_insult_new_3);
                     imageView2.setTag(1);
                 }
@@ -85,19 +79,16 @@ public class button_grp extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
 
-                if(imageView3.getTag().equals(1)){
+                if (imageView3.getTag().equals(1)) {
                     imageView3.setImageResource(R.drawable.btn_identityhate_new);
                     imageView3.setTag(2);
-                }
-                else if(imageView3.getTag().equals(2)){
+                } else if (imageView3.getTag().equals(2)) {
                     imageView3.setImageResource(R.drawable.btn_identityhate_new_1);
                     imageView3.setTag(3);
-                }
-                else if(imageView3.getTag().equals(3)){
+                } else if (imageView3.getTag().equals(3)) {
                     imageView3.setImageResource(R.drawable.btn_identityhate_new_2);
                     imageView3.setTag(4);
-                }
-                else{
+                } else {
                     imageView3.setImageResource(R.drawable.btn_identityhate_new_4);
                     imageView3.setTag(1);
                 }
@@ -111,26 +102,23 @@ public class button_grp extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
 
-                if(imageView4.getTag().equals(1)){
+                if (imageView4.getTag().equals(1)) {
                     imageView4.setImageResource(R.drawable.btn_threat_new);
                     imageView4.setTag(2);
-                }
-                else if(imageView4.getTag().equals(2)){
+                } else if (imageView4.getTag().equals(2)) {
                     imageView4.setImageResource(R.drawable.btn_threat_new_1);
                     imageView4.setTag(3);
-                }
-                else if(imageView4.getTag().equals(3)){
+                } else if (imageView4.getTag().equals(3)) {
                     imageView4.setImageResource(R.drawable.btn_threat_new_2);
                     imageView4.setTag(4);
-                }
-                else{
+                } else {
                     imageView4.setImageResource(R.drawable.btn_threat_new_3);
                     imageView4.setTag(1);
                 }
                 return false;
             }
         });
-        
+
     }
 
 }

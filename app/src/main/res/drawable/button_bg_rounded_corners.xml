@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:state_enabled="false">
+    <item android:state_enabled="false">
         <shape android:shape="rectangle">
-            <solid android:color="#5f161616"/>
+            <solid android:color="#5f161616" />
             <!--<stroke android:color="#a290b3" android:width="2dp" />-->
             <!--corners allow us to make the rounded corners button-->
             <corners android:radius="3dp" />
         </shape>
     </item>
-    <item
-        android:state_enabled="true">
+    <item android:state_enabled="true">
         <shape android:shape="rectangle">
-            <solid android:color="#48a999"/>
+            <solid android:color="#48a999" />
             <!--<stroke android:color="#a290b3" android:width="2dp" />-->
             <!--corners allow us to make the rounded corners button-->
             <corners android:radius="3dp" />

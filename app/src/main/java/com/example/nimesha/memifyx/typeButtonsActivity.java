@@ -114,11 +114,11 @@ public class typeButtonsActivity extends AppCompatActivity {
         questionId=intent.getStringExtra("questionId");
         userName="testUser";
         Log.d("theAnswer",theAnswerString);
-        ButtonSubmit =(ImageView) findViewById(R.id.btnsubmit);
-        ButtonObscene =(ImageView) findViewById(R.id.btnobscene);
-        ButtonIdentityHate =(ImageView) findViewById(R.id.btnidentityhate);
-        ButtonInsult =(ImageView) findViewById(R.id.btninsult);
-        ButtonThreat =(ImageView) findViewById(R.id.btnthreat);
+        ButtonSubmit = (ImageView) findViewById(R.id.btnsubmit);
+        ButtonObscene = (ImageView) findViewById(R.id.btnobscene);
+        ButtonIdentityHate = (ImageView) findViewById(R.id.btnidentityhate);
+        ButtonInsult = (ImageView) findViewById(R.id.btninsult);
+        ButtonThreat = (ImageView) findViewById(R.id.btnthreat);
 
         ButtonObscene.setTag(1);
         ButtonIdentityHate.setTag(1);
@@ -143,7 +143,7 @@ public class typeButtonsActivity extends AppCompatActivity {
                 ButtonInsult.setTag(1);
                 ButtonThreat.setTag(1);
 
-                if(ButtonObscene.getTag().equals(1)){
+                if (ButtonObscene.getTag().equals(1)) {
                     ButtonObscene.setImageResource(R.drawable.btn_obscene_new);
                     ButtonObscene.setTag(3);
                 }
@@ -151,16 +151,15 @@ public class typeButtonsActivity extends AppCompatActivity {
 //                    ButtonObscene.setImageResource(R.drawable.btn_obscene_new_1);
 //                    ButtonObscene.setTag(3);
 //                }
-                else if(ButtonObscene.getTag().equals(3)){
+                else if (ButtonObscene.getTag().equals(3)) {
                     ButtonObscene.setImageResource(R.drawable.btn_obscene_new_2);
                     ButtonObscene.setTag(4);
-                }
-                else{
+                } else {
                     ButtonObscene.setImageResource(R.drawable.btn_obscene_new_3);
                     ButtonObscene.setTag(1);
                 }
 
-                ButtonClicked(ButtonObscene,0);
+                ButtonClicked(ButtonObscene, 0);
                 return false;
             }
         });
@@ -175,7 +174,7 @@ public class typeButtonsActivity extends AppCompatActivity {
                 ButtonInsult.setTag(1);
                 ButtonThreat.setTag(1);
 
-                if(ButtonIdentityHate.getTag().equals(1)){
+                if (ButtonIdentityHate.getTag().equals(1)) {
                     ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_new);
                     ButtonIdentityHate.setTag(3);
                 }
@@ -183,16 +182,15 @@ public class typeButtonsActivity extends AppCompatActivity {
 //                    ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_new_1);
 //                    ButtonIdentityHate.setTag(3);
 //                }
-                else if(ButtonIdentityHate.getTag().equals(3)){
+                else if (ButtonIdentityHate.getTag().equals(3)) {
                     ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_new_2);
                     ButtonIdentityHate.setTag(4);
-                }
-                else{
+                } else {
                     ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_new_4);
                     ButtonIdentityHate.setTag(1);
                 }
 
-                ButtonClicked(ButtonIdentityHate,1);
+                ButtonClicked(ButtonIdentityHate, 1);
                 return false;
             }
         });
@@ -207,7 +205,7 @@ public class typeButtonsActivity extends AppCompatActivity {
                 ButtonIdentityHate.setTag(1);
                 ButtonThreat.setTag(1);
 
-                if(ButtonInsult.getTag().equals(1)){
+                if (ButtonInsult.getTag().equals(1)) {
                     ButtonInsult.setImageResource(R.drawable.btn_insult_new);
                     ButtonInsult.setTag(3);
                 }
@@ -215,16 +213,15 @@ public class typeButtonsActivity extends AppCompatActivity {
 //                    ButtonInsult.setImageResource(R.drawable.btn_insult_new_1);
 //                    ButtonInsult.setTag(3);
 //                }
-                else if(ButtonInsult.getTag().equals(3)){
+                else if (ButtonInsult.getTag().equals(3)) {
                     ButtonInsult.setImageResource(R.drawable.btn_insult_new_2);
                     ButtonInsult.setTag(4);
-                }
-                else{
+                } else {
                     ButtonInsult.setImageResource(R.drawable.btn_insult_new_3);
                     ButtonInsult.setTag(1);
                 }
 
-                ButtonClicked(ButtonInsult,2);
+                ButtonClicked(ButtonInsult, 2);
                 return false;
             }
         });
@@ -235,7 +232,7 @@ public class typeButtonsActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
 
-                if(ButtonThreat.getTag().equals(1)){
+                if (ButtonThreat.getTag().equals(1)) {
                     ButtonThreat.setImageResource(R.drawable.btn_threat_new);
                     ButtonThreat.setTag(3);
                 }
@@ -243,16 +240,15 @@ public class typeButtonsActivity extends AppCompatActivity {
 //                    ButtonThreat.setImageResource(R.drawable.btn_threat_new_1);
 //                    ButtonThreat.setTag(3);
 //                }
-                else if(ButtonThreat.getTag().equals(3)){
+                else if (ButtonThreat.getTag().equals(3)) {
                     ButtonThreat.setImageResource(R.drawable.btn_threat_new_2);
                     ButtonThreat.setTag(4);
-                }
-                else{
+                } else {
                     ButtonThreat.setImageResource(R.drawable.btn_threat_new_3);
                     ButtonThreat.setTag(1);
                 }
 
-                ButtonClicked(ButtonThreat,3);
+                ButtonClicked(ButtonThreat, 3);
                 return false;
             }
         });
@@ -262,13 +258,12 @@ public class typeButtonsActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
-                DatabaseReference user=mUserDatabaseRef.child(username);
-                swipes+=1;
-                count+=1;
+                DatabaseReference user = mUserDatabaseRef.child(username);
+                swipes += 1;
+                count += 1;
                 user.child("swipes").setValue(swipes);
                 user.child("count").setValue(count);
-                Log.d("swipes:count"," "+swipes+" : "+count);
-
+                Log.d("swipes:count", " " + swipes + " : " + count);
 
 
                 try {
@@ -284,31 +279,30 @@ public class typeButtonsActivity extends AppCompatActivity {
                     JSONObject JsonThreat = new JSONObject();
                     JsonThreat.put("enumAnswer", getThreatLevel());
 
-                    theAnswer.put("obscene",JsonObscene);
-                    theAnswer.put("identityHate",JsonIdentityHate);
-                    theAnswer.put("insult",JsonInsult);
+                    theAnswer.put("obscene", JsonObscene);
+                    theAnswer.put("identityHate", JsonIdentityHate);
+                    theAnswer.put("insult", JsonInsult);
                     theAnswer.put("threat", JsonThreat);
 
-                    finalAnswer=new JSONObject();
-                    finalAnswer.put("answer",theAnswer);
-                    Log.d("finalAnswer",finalAnswer.getString("answer"));
+                    finalAnswer = new JSONObject();
+                    finalAnswer.put("answer", theAnswer);
+                    Log.d("finalAnswer", finalAnswer.getString("answer"));
 
-                    PostAnotation postAnotation=new PostAnotation();
-                    String newUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/questions/"+questionId+"/answers/"+userName;
-                    String oldUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/questions/"+questionId+"/answers/"+userName;
+                    PostAnotation postAnotation = new PostAnotation();
+                    String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/questions/" + questionId + "/answers/" + userName;
+                    String oldUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/questions/" + questionId + "/answers/" + userName;
                     postAnotation.setUrl(newUrl);
                     postAnotation.execute();
 
                     //wp_v2_x2000_XXXXX
 
-                    for (int i: buttonStaus){
-                        i=0;
+                    for (int i : buttonStaus) {
+                        i = 0;
                     }
                     Toast.makeText(typeButtonsActivity.this, "Your response recorded", Toast.LENGTH_SHORT).show();
                     onBackPressed();
-                }
-                catch (Exception e){
-                    Log.d("finalAnswer","error while creating JSON");
+                } catch (Exception e) {
+                    Log.d("finalAnswer", "error while creating JSON");
 
                 }
                 return false;
@@ -319,8 +313,7 @@ public class typeButtonsActivity extends AppCompatActivity {
     }
 
 
-
-    void ButtonClicked(ImageView b,int i){
+    void ButtonClicked(ImageView b, int i) {
         buttonStaus[i]=(buttonStaus[i]+1)%3;
 
     }
