@@ -25,6 +25,10 @@ public class ImageUpload {
         return like;
     }
 
+    public void setLike(int like) {
+        this.like = like;
+    }
+
     public String getKey() {
         return key;
     }

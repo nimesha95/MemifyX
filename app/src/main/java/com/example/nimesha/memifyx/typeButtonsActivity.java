@@ -221,6 +221,7 @@ public class typeButtonsActivity extends AppCompatActivity {
                             for (int i: buttonStaus){
                                 i=0;
                             }
+                            Toast.makeText(typeButtonsActivity.this, "Your response recorded", Toast.LENGTH_SHORT).show();
                             onBackPressed();
                         }
                         catch (Exception e){

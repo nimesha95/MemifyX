@@ -24,13 +24,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Landing" />
-        <activity android:name=".Signup" />
-        <activity android:name=".ImageListActivity" />
-        <activity android:name=".TextRating" />
-        <activity android:name=".typeButtonsActivity" />
-        <activity android:name=".MemeSlider" />
-        <activity android:name=".decision_point"></activity>
+        <activity
+            android:name=".Landing"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Signup"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ImageListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TextRating"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".typeButtonsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MemeSlider"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".decision_point"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

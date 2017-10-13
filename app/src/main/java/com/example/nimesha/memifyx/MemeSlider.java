@@ -1,6 +1,7 @@
 package com.example.nimesha.memifyx;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -44,8 +46,14 @@ public class MemeSlider extends AppCompatActivity {
 
     ImageView imgview1;
     TextView ImgName;
+    TextView likecount;
+    Button MemeUploadBtn;
+
     private ProgressDialog progressDialog;
     LikeButton likebtn;
+    ImageUpload img;
+
+    public int curIndex = 0;
 
     public static String TAG = "MemeSlider";
 
@@ -61,6 +69,7 @@ public class MemeSlider extends AppCompatActivity {
         username = prefs.getString("username", "User not found");
 
         mUserDatabaseRef = FirebaseDatabase.getInstance().getReference(FB_DATABASE_PATH_user);
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference(Landing.FB_DATABASE_PATH);
 
         mUserDatabaseRef.child(username).addValueEventListener(new ValueEventListener() {
             @Override
@@ -74,20 +83,17 @@ public class MemeSlider extends AppCompatActivity {
             }
         });
 
-
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference(Landing.FB_DATABASE_PATH);
-
         ImageArray = new ArrayList<ImageUpload>();
 
         imgview1 = (ImageView) findViewById(R.id.imageView2);
         ImgName = (TextView) findViewById(R.id.ImgName);
         likebtn = (LikeButton) findViewById(R.id.like_button);
+        likecount = (TextView) findViewById(R.id.likecount);
+        MemeUploadBtn = (Button) findViewById(R.id.MemeUploadBtn);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait....");
         progressDialog.show();
-
-        likebtn.setEnabled(false);
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -98,15 +104,13 @@ public class MemeSlider extends AppCompatActivity {
                     //ImageUpload class require default constructor
                     Log.d("somestuff", "" + snapshot.getKey());
 
-                    ImageUpload img = snapshot.getValue(ImageUpload.class);
-
-                    Log.d("blaster", "" + img.getLike());
+                    img = snapshot.getValue(ImageUpload.class);
+                    img.setKey(snapshot.getKey());
                     ImageArray.add(img);
-
-                    changeImg(0);
+                    Log.d("likebtn", "came here");
                     Log.d("imglist", "" + img.getUrl());
-                    mDatabaseRef.child("-Kvn3dDykKlLZ0wBC1v-").child("like").setValue(5);
                 }
+                changeImg(curIndex);
             }
 
             @Override
@@ -114,8 +118,35 @@ public class MemeSlider extends AppCompatActivity {
             }
         });
 
+        MemeUploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MemeSlider.this, Landing.class);
+                startActivity(intent);
+            }
+        });
+
+        likebtn.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                ImageUpload curImage = ImageArray.get(curIndex);
+                int curlikes = curImage.getLike() + 1;
+                ImageArray.get(curIndex).setLike(curlikes);
+                mDatabaseRef.child(curImage.getKey()).child("like").setValue(curlikes);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                ImageUpload curImage = ImageArray.get(curIndex);
+                int curlikes = curImage.getLike() - 1;
+                ImageArray.get(curIndex).setLike(curlikes);
+                mDatabaseRef.child(curImage.getKey()).child("like").setValue(curlikes);
+            }
+        });
+
         imgview1.setOnTouchListener(new OnSwipeTouchListener(MemeSlider.this) {
             public void onSwipeRight() {
+                likebtn.setLiked(false);
                 if (swipes>0) {
                     Log.d(TAG, "Right");
                     changeImg(back - 1);
@@ -131,6 +162,7 @@ public class MemeSlider extends AppCompatActivity {
             }
 
             public void onSwipeLeft() {
+                likebtn.setLiked(false);
                 if (swipes>0) {
                     Log.d(TAG, "Left");
                     changeImg(count);
@@ -152,10 +184,12 @@ public class MemeSlider extends AppCompatActivity {
     }
 
     public void changeImg(int count) {
-        likebtn.setLiked(false);
+        curIndex = count;
         likebtn.setEnabled(false);
         Picasso.with(this).load(ImageArray.get(count).getUrl()).fit().into(imgview1);
         ImgName.setText(ImageArray.get(count).getName());
+        Log.d("likecountx", "" + ImageArray.get(count).getLike());
+        likecount.setText("" + ImageArray.get(count).getLike());
         likebtn.setEnabled(true);
     }
 

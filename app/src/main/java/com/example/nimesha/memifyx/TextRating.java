@@ -251,6 +251,8 @@ public class TextRating extends AppCompatActivity{
                                 theAnswer.put("readableAndInEnglish", readility);
                                 theAnswer.put("toxic", ToxicityLevel);
 
+                                smileRating.setSelectedSmile(BaseRating.NONE, false);    //make smiley bar unratable
+
                                 Intent intent = new Intent(TextRating.this, typeButtonsActivity.class);
                                 intent.putExtra("theAnswer", theAnswer.toString());
                                 Log.d("questionID",theQuestion.getQuestionID());

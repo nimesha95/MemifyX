@@ -47,15 +47,6 @@ public class Landing extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
-        /*
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-
-        String[] arr = {"https://i.ytimg.com/vi/tVlcKp3bWH8/maxresdefault.jpg","https://lh3.googleusercontent.com/Yh6ZlCb8dQIDIwAWbwd2jboFCyTqq8wc2xbLMs9ykYemOX3vjOTtT6Npfbk-jFkCciwY=w300"};
-
-        Picasso.with(this)
-                .load("https://i.ytimg.com/vi/tVlcKp3bWH8/maxresdefault.jpg")
-                .into(imageView);
-        */
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference(FB_DATABASE_PATH);
@@ -118,6 +109,7 @@ public class Landing extends AppCompatActivity {
                     //Save image info in to firebase database
                     String uploadId = mDatabaseRef.push().getKey();
                     mDatabaseRef.child(uploadId).setValue(imageUpload);
+                    onBackPressed();
                 }
             })
                     .addOnFailureListener(new OnFailureListener() {
@@ -138,7 +130,7 @@ public class Landing extends AppCompatActivity {
                             //Show Upload Progress
 
                             double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                            dialog.setMessage("Uploaded" + (int)progress+"%");
+                            dialog.setMessage("Uploaded " + (int) progress + "%");
                         }
                     });
         }
