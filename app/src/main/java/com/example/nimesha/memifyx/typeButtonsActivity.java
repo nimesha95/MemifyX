@@ -279,7 +279,7 @@ public class typeButtonsActivity extends AppCompatActivity {
                     PostAnotation postAnotation = new PostAnotation();
                     String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/questions/" + questionId + "/answers/" + userName;
                     String oldUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/questions/" + questionId + "/answers/" + userName;
-                    Log.d("buhaha", newUrl);
+
                     postAnotation.setUrl(newUrl);
                     postAnotation.execute();
                     //wp_v2_x2000_XXXXX
@@ -369,51 +369,6 @@ public class typeButtonsActivity extends AppCompatActivity {
         }
 
         protected String doInBackground(Void... voids) {
-/*
-            try {
-                int TIMEOUT_MILLISEC = 10000;  // = 10 seconds
-               // String postMessage=finalAnswer.toString(); //HERE_YOUR_POST_STRING.
-
-
-
-                HttpParams httpParams = new BasicHttpParams();
-                HttpConnectionParams.setConnectionTimeout(httpParams, TIMEOUT_MILLISEC);
-                HttpConnectionParams.setSoTimeout(httpParams, TIMEOUT_MILLISEC);
-                HttpClient client = new DefaultHttpClient(httpParams);
-
-                String json = finalAnswer.toString();
-                StringEntity se = new StringEntity(json);
-                //httpPost.setEntity(se);
-                HttpPost request = new HttpPost(url);
-                request.setEntity(se);
-
-                HttpResponse response = client.execute(request);
-
-
-                BufferedReader r = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-                StringBuilder total = new StringBuilder();
-                String line = null;
-                while ((line = r.readLine()) != null) {
-                    total.append(line);
-                }
-                r.close();
-                Log.d("TheResponse",total.toString());
-                Log.d("THeResponse",url);
-
-
-                int responseCode=response.getStatusLine().getStatusCode();
-
-                if (responseCode == HttpsURLConnection.HTTP_OK) {
-                    return "Successfully Sent";
-
-                } else {
-                    return new String("false : " + responseCode);
-                }
-            } catch (Exception e) {
-                return new String("Exception: " + e.getMessage());
-            }
-
-*/
             Request requestX = null;
 
             try {

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import static com.example.nimesha.memifyx.Landing.FB_DATABASE_PATH;
+import static com.example.nimesha.memifyx.R.id.username;
 
 public class Signup extends AppCompatActivity {
 
@@ -98,27 +100,53 @@ public class Signup extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(Signup.this,user.getEmail()+" Registeration Succesfull!",Toast.LENGTH_SHORT).show();
+                        if (CheckNetwork.isInternetAvailable(Signup.this)) //returns true if internet available
+                        {
+                            Log.d("internet", "Net available");
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                Toast.makeText(Signup.this, user.getEmail() + " Registeration Succesfull!", Toast.LENGTH_SHORT).show();
 
-                            //sets user info on firebase
-                            mUserDatabaseRef.child(email).child("count").setValue(0);
-                            mUserDatabaseRef.child(email).child("swipes").setValue(10);
+                                //sets user info on firebase
+                                mUserDatabaseRef.child(email).child("count").setValue(0);
+                                mUserDatabaseRef.child(email).child("swipes").setValue(10);
 
-                            SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putString("username", email);
-                            editor.putInt("swipes", 10);     //at the signup user is given 10 swipes
-                            editor.commit();
+                                SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("username", email);
+                                editor.putInt("swipes", 10);     //at the signup user is given 10 swipes
+                                editor.commit();
 
-                            signin(newEmail, password);
+                                signin(newEmail, password);
+                            }
+
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(Signup.this, "A user with same email exists",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } else {
+                            final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(Signup.this);
+
+                            dialogBuilder
+                                    .withTitle("No Internet")                                  //.withTitle(null)  no title
+                                    .withTitleColor("#FFFFFF")                                  //def
+                                    .withDividerColor("#11000000")                              //def
+                                    .withMessage("Please Connect to the Internet")                     //.withMessage(null)  no Msg
+                                    .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                                    .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                                    .withButton1Text("Ok")
+                                    .isCancelableOnTouchOutside(true)//def gone
+                                    .setButton1Click(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            dialogBuilder.dismiss();
+                                        }
+                                    })
+                                    .show();
                         }
 
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(Signup.this, "A user with same email exists",
-                                    Toast.LENGTH_SHORT).show();
-                        }
                     }
                 });
     }

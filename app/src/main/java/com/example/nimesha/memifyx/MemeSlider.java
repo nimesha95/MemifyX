@@ -57,6 +57,29 @@ public class MemeSlider extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meme_slider);
 
+        if (CheckNetwork.isInternetAvailable(MemeSlider.this)) //returns true if internet available
+        {
+            Log.d("internet", "Net available");
+        } else {
+            NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MemeSlider.this);
+
+            dialogBuilder
+                    .withTitle("No Internet")                                  //.withTitle(null)  no title
+                    .withTitleColor("#FFFFFF")                                  //def
+                    .withDividerColor("#11000000")                              //def
+                    .withMessage("Please Connect to the Internet")                     //.withMessage(null)  no Msg
+                    .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                    .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                    .withButton1Text("Ok")                                      //def gone
+                    .setButton1Click(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(MemeSlider.this, decision_point.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .show();
+        }
 
         SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
         username = prefs.getString("username", "User not found");

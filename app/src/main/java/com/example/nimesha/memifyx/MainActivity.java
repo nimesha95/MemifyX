@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -30,10 +31,8 @@ import static com.example.nimesha.memifyx.Signup.FB_DATABASE_PATH_user;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "signin";
     public static final String MY_PREFS_NAME = "MyPrefsFile";       //used for shared preferance
-
-
+    private static final String TAG = "signin";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private Boolean exit = false;
@@ -75,7 +74,31 @@ public class MainActivity extends AppCompatActivity {
         signinBtn.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        signin(username.getText().toString(),pass.getText().toString());
+                        if (CheckNetwork.isInternetAvailable(MainActivity.this)) //returns true if internet available
+                        {
+                            Log.d("internet", "Net available");
+                            signin(username.getText().toString(), pass.getText().toString());
+                        } else {
+                            final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MainActivity.this);
+
+                            dialogBuilder
+                                    .withTitle("No Internet")                                  //.withTitle(null)  no title
+                                    .withTitleColor("#FFFFFF")                                  //def
+                                    .withDividerColor("#11000000")                              //def
+                                    .withMessage("Please Connect to the Internet")                     //.withMessage(null)  no Msg
+                                    .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                                    .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                                    .withButton1Text("Ok")
+                                    .isCancelableOnTouchOutside(true)//def gone
+                                    .setButton1Click(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            dialogBuilder.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        }
+
                     }
                 }
         );

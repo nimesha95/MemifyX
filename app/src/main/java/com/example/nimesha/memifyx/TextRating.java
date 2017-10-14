@@ -21,6 +21,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -83,6 +84,30 @@ public class TextRating extends AppCompatActivity{
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         setContentView(R.layout.activity_text_rating);
+
+        if (CheckNetwork.isInternetAvailable(TextRating.this)) //returns true if internet available
+        {
+            Log.d("internet", "Net available");
+        } else {
+            NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(TextRating.this);
+
+            dialogBuilder
+                    .withTitle("No Internet")                                  //.withTitle(null)  no title
+                    .withTitleColor("#FFFFFF")                                  //def
+                    .withDividerColor("#11000000")                              //def
+                    .withMessage("Please Connect to the Internet")                     //.withMessage(null)  no Msg
+                    .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                    .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                    .withButton1Text("Ok")                                      //def gone
+                    .setButton1Click(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(TextRating.this, decision_point.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .show();
+        }
 
         SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
         username = prefs.getString("username", "User not found");

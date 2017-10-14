@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,12 +43,54 @@ public class decision_point extends AppCompatActivity {
         GettingStartedBtn = (Button) findViewById(R.id.GettingStartedBtn);
         Acheivements = (Button) findViewById(R.id.Acheivements);
 
+
         mUserDatabaseRef = FirebaseDatabase.getInstance().getReference(FB_DATABASE_PATH_user);
 
 
         SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
         String username = prefs.getString("username", "User not found");
 
+
+        if (CheckNetwork.isInternetAvailable(decision_point.this)) //returns true if internet available
+        {
+            Log.d("internet", "Net available");
+        } else {
+            final NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(decision_point.this);
+
+            dialogBuilder
+                    .withTitle("No Internet")                                  //.withTitle(null)  no title
+                    .withTitleColor("#FFFFFF")                                  //def
+                    .withDividerColor("#11000000")                              //def
+                    .withMessage("Please Connect to the Internet or App may crash")                     //.withMessage(null)  no Msg
+                    .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                    .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                    .withButton1Text("Ok")                                      //def gone
+                    .setButton1Click(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialogBuilder.dismiss();
+                        }
+                    })
+                    .show();
+        }
+
+
+        signoutBtn.setOnClickListener(
+                new Button.OnClickListener() {
+                    public void onClick(View v) {
+
+                        SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("username", "user signed out");
+                        editor.commit();
+
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(decision_point.this, MainActivity.class);
+                        startActivity(intent);
+
+                    }
+                }
+        );
         mUserDatabaseRef.child(username).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -107,23 +150,6 @@ public class decision_point extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(decision_point.this, GettingStarted.class);
                         startActivity(intent);
-                    }
-                }
-        );
-
-        signoutBtn.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-
-                        SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putString("username", "user signed out");
-                        editor.commit();
-
-                        FirebaseAuth.getInstance().signOut();
-                        Intent intent = new Intent(decision_point.this, MainActivity.class);
-                        startActivity(intent);
-
                     }
                 }
         );
