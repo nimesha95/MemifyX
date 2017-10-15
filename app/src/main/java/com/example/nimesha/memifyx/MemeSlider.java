@@ -39,7 +39,6 @@ public class MemeSlider extends AppCompatActivity {
     public List<ImageUpload> ImageArray;
     public int count;
     public int returnPoint;
-    public int back = 0;
     public int curIndex;
     SharedPreferences prefs;
     String username;
@@ -175,7 +174,6 @@ public class MemeSlider extends AppCompatActivity {
                     count = count - 1;
                     Log.d("dumber", "L->" + count);
                     changeImg(count);
-                    back = back - 1;
                     DatabaseReference user = mUserDatabaseRef.child(username);
 
                     user.child("swipes").setValue(swipes);
@@ -218,7 +216,6 @@ public class MemeSlider extends AppCompatActivity {
                         user.child("swipes").setValue(swipes);
                         tv.setText("$wipes: " + swipes);
                         //Toast.makeText(MemeSlider.this, "left", Toast.LENGTH_SHORT).show();
-                        back = count;
 
                     } else {
                         NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MemeSlider.this);

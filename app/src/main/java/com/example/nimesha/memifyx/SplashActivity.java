@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG = "splash_screen";
-    private static int TIME_OUT = 4; //Time to launch the another activity
+    private static int TIME_OUT = 4000; //Time to launch the another activity
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
