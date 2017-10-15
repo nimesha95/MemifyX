@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#48a999"
+    android:background="#FFFFFF"
     android:gravity="bottom"
     android:orientation="vertical">
 
@@ -50,10 +50,10 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:gravity="center_vertical|center"
-                    android:textColor="#FFFFFF"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vulputate eget quam quis feugiat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi eleifend ante eu ex tristique interdum. Nunc tempus ante ut tincidunt suscipit. Fusce tristique ante eu est vestibulum accumsan."
 
 
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vulputate eget quam quis feugiat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi eleifend ante eu ex tristique interdum. Nunc tempus ante ut tincidunt suscipit. Fusce tristique ante eu est vestibulum accumsan." />
+                    android:textColor="#FFFFFF" />
 
             </TableRow>
         </LinearLayout>
@@ -69,8 +69,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:textColor="#FFFFFF"
-            android:text="cannot identify the text or not in english" />
+            android:text="cannot identify the text or not in english"
+            android:textColor="#FFFFFF" />
 
     </TableRow>
 
@@ -101,10 +101,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="140dp"
-            android:textColor="#FFFFFF"
             android:background="@drawable/button_bg_rounded_corners"
             android:enabled="false"
-            android:text="submit" />
+            android:text="submit"
+            android:textColor="#FFFFFF" />
     </TableRow>
 
 </LinearLayout>
