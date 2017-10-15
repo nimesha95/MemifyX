@@ -23,7 +23,7 @@ import static com.example.nimesha.memifyx.Signup.FB_DATABASE_PATH_user;
 public class Achievements extends AppCompatActivity {
 
     String username;
-    int swipes;
+    int count;
     TextView achieve_txt;
     private DatabaseReference mUserDatabaseRef;
 
@@ -67,8 +67,8 @@ public class Achievements extends AppCompatActivity {
         mUserDatabaseRef.child(username).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                swipes = dataSnapshot.child("swipes").getValue(Integer.class);
-                achieve_txt.setText("You have Submitted : " + swipes);
+                count = dataSnapshot.child("count").getValue(Integer.class);
+                achieve_txt.setText("You have Submitted : " + count);
                 //Log.d("swipes", "" + swipes);
             }
 
