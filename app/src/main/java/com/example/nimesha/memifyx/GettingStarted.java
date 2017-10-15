@@ -122,6 +122,10 @@ public class GettingStarted extends AppCompatActivity {
         sequence.addSequenceItem(textViewQuestionText,
                 "This is where the comments are displayed", "NEXT");
 
+        sequence.addSequenceItem(textViewQuestionText,
+                "You can skip comments by simply sliding left", "OK");
+
+
         sequence.addSequenceItem(smileRating,
                 "Select the Emoji that suites best for the above text", "GOT IT");
 
