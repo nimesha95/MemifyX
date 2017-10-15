@@ -53,7 +53,7 @@
                     android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vulputate eget quam quis feugiat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi eleifend ante eu ex tristique interdum. Nunc tempus ante ut tincidunt suscipit. Fusce tristique ante eu est vestibulum accumsan."
 
 
-                    android:textColor="#FFFFFF" />
+                     />
 
             </TableRow>
         </LinearLayout>
@@ -69,8 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="cannot identify the text or not in english"
-            android:textColor="#FFFFFF" />
+            android:text="cannot identify the text or not in english" />
 
     </TableRow>
 

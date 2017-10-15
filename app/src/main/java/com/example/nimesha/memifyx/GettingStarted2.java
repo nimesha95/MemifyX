@@ -102,7 +102,7 @@ public class GettingStarted2 extends AppCompatActivity {
                 "Darker the color means higher the toxicity", "OK");
 
         sequence.addSequenceItem(ButtonSubmit,
-                "Tap Here Submit the response\nYou're now ready!\nHave FUN! :D", "COOL");
+                "Tap Here Submit the response", "COOL");
 
         sequence.start();
 
