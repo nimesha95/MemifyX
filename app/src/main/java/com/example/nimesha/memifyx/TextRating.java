@@ -21,6 +21,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.bridge.Bridge;
+import com.afollestad.bridge.BridgeException;
+import com.afollestad.bridge.Request;
+import com.afollestad.bridge.Response;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -76,6 +80,7 @@ public class TextRating extends AppCompatActivity{
     CheckBox NotEnglishCheckBox;
     Question theQuestion;
     String username;
+    JSONObject finalAnswer;
     private DatabaseReference mUserDatabaseRef;
 
     @Override
@@ -146,7 +151,8 @@ public class TextRating extends AppCompatActivity{
             }
             public void onSwipeLeft() {
                 Log.d(TAG,"Left");
-
+                smileRating.setEnabled(true);
+                smileRating.setVisibility(View.VISIBLE);
                 setQuestion();
                 smileRating.setSelectedSmile(BaseRating.NONE,false);
 
@@ -227,22 +233,31 @@ public class TextRating extends AppCompatActivity{
 
 
                                 Log.d("buildingJson","question is not NotInEnglish");
-                                JSONObject readility = new JSONObject();
-                                readility.put("enumAnswer", checkBoxStatus());
+                                //JSONObject readility = new JSONObject();
+                                //readility.put("enumAnswer", checkBoxStatus());
 
                                 JSONObject theAnswer = new JSONObject();
 
-                                theAnswer.put("readableAndInEnglish", readility);
+                                theAnswer.put("readableAndInEnglish", checkBoxStatus());
 
 
                                 JSONObject finalAnswer = new JSONObject();
-                                finalAnswer.put("answer",theAnswer);
+                                finalAnswer.put("answer", theAnswer.toString());
                                 Log.d("finalAnswer",finalAnswer.getString("answer"));
 
                                 Toast.makeText(TextRating.this, "question marked as not in english or not understandable", Toast.LENGTH_SHORT).show();
                                 //add code to send the the answer post or move to button Activity
 
+                                String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/questions/" + theQuestion.getQuestionID() + "/answers/" + username;
+                                PostAnotation postAnotation = new PostAnotation();
+                                postAnotation.setUrl(newUrl);
+                                postAnotation.execute();
+                                Log.d("newurl", newUrl);
+                                Log.d("hippoXD", finalAnswer.toString());
 
+                                smileRating.setEnabled(true);
+                                smileRating.setVisibility(View.VISIBLE);
+                                 
                                 setQuestion();
                             }
                             else {
@@ -261,15 +276,11 @@ public class TextRating extends AppCompatActivity{
                                 startActivity(intent);
 
                             }
-
-
                         }
                         catch (Exception e){
                             Toast.makeText(TextRating.this, "exception while building answer JSON", Toast.LENGTH_SHORT).show();
                             Log.e("Some Tag", e.getMessage(), e);
                         }
-
-
                     }
                 }
         );
@@ -447,5 +458,65 @@ public class TextRating extends AppCompatActivity{
 
 
     }
+
+    public class PostAnotation extends AsyncTask<Void, Void, String> {
+        String url;
+        String response = null;
+
+
+        public String setUrl(String url) {
+            try {
+                this.url = url;
+                return "successfully set";
+
+
+            } catch (Exception e) {
+                return new String("Exception: " + e.getMessage());
+            }
+        }
+
+        protected void onPreExecute() {
+        }
+
+        protected String doInBackground(Void... voids) {
+            Request requestX = null;
+
+            try {
+                requestX = Bridge
+                        .post(url)
+                        .body(finalAnswer)
+                        .request();
+            } catch (BridgeException e) {
+                e.printStackTrace();
+            }
+
+            Response responseX = requestX.response();
+            if (responseX.isSuccess()) {
+                // Request returned HTTP status 200-300
+                responseX.asString();
+                Log.d("stuffhappens", responseX.asString());
+            } else {
+                // Request returned an HTTP error status
+                Log.d("stuffhappens", responseX.asString());
+
+            }
+            return responseX.asString();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+
+                Log.d("AnswerSent", finalAnswer.toString());
+            } catch (Exception e) {
+                Log.d("AnswerSent", "failed to sent");
+            }
+
+            Log.d("SendingReport", result);
+
+        }
+
+    }
+
 
 }

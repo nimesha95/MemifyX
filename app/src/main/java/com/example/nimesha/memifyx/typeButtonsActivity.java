@@ -277,14 +277,12 @@ public class typeButtonsActivity extends AppCompatActivity {
                     Log.d("finalAnswer", finalAnswer.getString("answer"));
 
                     PostAnotation postAnotation = new PostAnotation();
-                    String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/questions/" + questionId + "/answers/" + userName;
-                    String oldUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/questions/" + questionId + "/answers/" + userName;
-
+                    String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/questions/" + questionId + "/answers/" + username;
+                    String oldUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/questions/" + questionId + "/answers/" + username;
+                    Log.d("url", newUrl);
                     postAnotation.setUrl(newUrl);
                     postAnotation.execute();
                     //wp_v2_x2000_XXXXX
-
-
                     for (int i : buttonStaus) {
                         i = 0;
                     }
@@ -292,20 +290,16 @@ public class typeButtonsActivity extends AppCompatActivity {
                     onBackPressed();
                 } catch (Exception e) {
                     Log.d("finalAnswer", "error while creating JSON");
-
                 }
 
                 return false;
             }
         });
-
-
     }
 
 
     void ButtonClicked(ImageView b, int i) {
         buttonStaus[i]=(buttonStaus[i]+1)%3;
-
     }
 
     String getObsceneLevel(){
