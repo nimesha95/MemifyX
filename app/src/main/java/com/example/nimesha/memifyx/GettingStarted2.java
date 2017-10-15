@@ -118,7 +118,7 @@ public class GettingStarted2 extends AppCompatActivity {
                 ButtonThreat.setTag(1);
 
                 if (ButtonObscene.getTag().equals(1)) {
-                    ButtonObscene.setImageResource(R.drawable.btn_obscene_new);
+                    ButtonObscene.setImageResource(R.drawable.btn_obscene_1);
                     ButtonObscene.setTag(3);
                 }
 //                else if(ButtonObscene.getTag().equals(2)){
@@ -126,10 +126,10 @@ public class GettingStarted2 extends AppCompatActivity {
 //                    ButtonObscene.setTag(3);
 //                }
                 else if (ButtonObscene.getTag().equals(3)) {
-                    ButtonObscene.setImageResource(R.drawable.btn_obscene_new_2);
+                    ButtonObscene.setImageResource(R.drawable.btn_obscene_2);
                     ButtonObscene.setTag(4);
                 } else {
-                    ButtonObscene.setImageResource(R.drawable.btn_obscene_new_3);
+                    ButtonObscene.setImageResource(R.drawable.btn_obscene_3);
                     ButtonObscene.setTag(1);
                 }
 
@@ -149,7 +149,7 @@ public class GettingStarted2 extends AppCompatActivity {
                 ButtonThreat.setTag(1);
 
                 if (ButtonIdentityHate.getTag().equals(1)) {
-                    ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_new);
+                    ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_1);
                     ButtonIdentityHate.setTag(3);
                 }
 //                else if(ButtonIdentityHate.getTag().equals(2)){
@@ -157,10 +157,10 @@ public class GettingStarted2 extends AppCompatActivity {
 //                    ButtonIdentityHate.setTag(3);
 //                }
                 else if (ButtonIdentityHate.getTag().equals(3)) {
-                    ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_new_2);
+                    ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_2);
                     ButtonIdentityHate.setTag(4);
                 } else {
-                    ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_new_4);
+                    ButtonIdentityHate.setImageResource(R.drawable.btn_identityhate_3);
                     ButtonIdentityHate.setTag(1);
                 }
 
@@ -180,7 +180,7 @@ public class GettingStarted2 extends AppCompatActivity {
                 ButtonThreat.setTag(1);
 
                 if (ButtonInsult.getTag().equals(1)) {
-                    ButtonInsult.setImageResource(R.drawable.btn_insult_new);
+                    ButtonInsult.setImageResource(R.drawable.btn_insult_1);
                     ButtonInsult.setTag(3);
                 }
 //                else if(ButtonInsult.getTag().equals(2)){
@@ -188,10 +188,10 @@ public class GettingStarted2 extends AppCompatActivity {
 //                    ButtonInsult.setTag(3);
 //                }
                 else if (ButtonInsult.getTag().equals(3)) {
-                    ButtonInsult.setImageResource(R.drawable.btn_insult_new_2);
+                    ButtonInsult.setImageResource(R.drawable.btn_insult_2);
                     ButtonInsult.setTag(4);
                 } else {
-                    ButtonInsult.setImageResource(R.drawable.btn_insult_new_3);
+                    ButtonInsult.setImageResource(R.drawable.btn_insult_3);
                     ButtonInsult.setTag(1);
                 }
 
@@ -207,7 +207,7 @@ public class GettingStarted2 extends AppCompatActivity {
                 // TODO Auto-generated method stub
 
                 if (ButtonThreat.getTag().equals(1)) {
-                    ButtonThreat.setImageResource(R.drawable.btn_threat_new);
+                    ButtonThreat.setImageResource(R.drawable.btn_threat_1);
                     ButtonThreat.setTag(3);
                 }
 //                else if(ButtonThreat.getTag().equals(2)){
@@ -215,10 +215,10 @@ public class GettingStarted2 extends AppCompatActivity {
 //                    ButtonThreat.setTag(3);
 //                }
                 else if (ButtonThreat.getTag().equals(3)) {
-                    ButtonThreat.setImageResource(R.drawable.btn_threat_new_2);
+                    ButtonThreat.setImageResource(R.drawable.btn_threat_2);
                     ButtonThreat.setTag(4);
                 } else {
-                    ButtonThreat.setImageResource(R.drawable.btn_threat_new_3);
+                    ButtonThreat.setImageResource(R.drawable.btn_threat_3);
                     ButtonThreat.setTag(1);
                 }
 
