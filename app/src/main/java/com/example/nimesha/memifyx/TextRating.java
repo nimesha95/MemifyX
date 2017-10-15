@@ -241,7 +241,7 @@ public class TextRating extends AppCompatActivity{
                                 theAnswer.put("readableAndInEnglish", checkBoxStatus());
 
 
-                                JSONObject finalAnswer = new JSONObject();
+                                finalAnswer = new JSONObject();
                                 finalAnswer.put("answer", theAnswer.toString());
                                 Log.d("finalAnswer",finalAnswer.getString("answer"));
 
@@ -266,6 +266,7 @@ public class TextRating extends AppCompatActivity{
 
                                 theAnswer.put("readableAndInEnglish", checkBoxStatus());
                                 theAnswer.put("toxic", Toxicity());
+
 
                                 smileRating.setSelectedSmile(BaseRating.NONE, false);    //make smiley bar unratable
 
@@ -489,7 +490,7 @@ public class TextRating extends AppCompatActivity{
             } catch (BridgeException e) {
                 e.printStackTrace();
             }
-
+            Log.d("SentfinalAnser",finalAnswer.toString());
             Response responseX = requestX.response();
             if (responseX.isSuccess()) {
                 // Request returned HTTP status 200-300

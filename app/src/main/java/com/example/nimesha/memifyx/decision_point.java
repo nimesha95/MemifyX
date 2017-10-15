@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,7 +50,6 @@ public class decision_point extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
         String username = prefs.getString("username", "User not found");
-
 
         if (CheckNetwork.isInternetAvailable(decision_point.this)) //returns true if internet available
         {
