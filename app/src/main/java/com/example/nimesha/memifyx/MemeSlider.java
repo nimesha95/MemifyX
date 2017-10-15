@@ -1,6 +1,7 @@
 package com.example.nimesha.memifyx;
 
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -36,9 +37,10 @@ import static com.example.nimesha.memifyx.Signup.FB_DATABASE_PATH_user;
 public class MemeSlider extends AppCompatActivity {
     public static String TAG = "MemeSlider";
     public List<ImageUpload> ImageArray;
-    public int count = 1;
+    public int count;
+    public int returnPoint;
     public int back = 0;
-    public int curIndex = 0;
+    public int curIndex;
     SharedPreferences prefs;
     String username;
     TextView tv;
@@ -84,6 +86,8 @@ public class MemeSlider extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
         username = prefs.getString("username", "User not found");
+        count = prefs.getInt("count", 0);
+        returnPoint = count;
 
         mUserDatabaseRef = FirebaseDatabase.getInstance().getReference(FB_DATABASE_PATH_user);
         mDatabaseRef = FirebaseDatabase.getInstance().getReference(Landing.FB_DATABASE_PATH);
@@ -127,7 +131,8 @@ public class MemeSlider extends AppCompatActivity {
                     Log.d("likebtn", "came here");
                     Log.d("imglist", "" + img.getUrl());
                 }
-                changeImg(curIndex);
+                Log.d("dumber", "curIndex->" + curIndex);
+                changeImg(count);
             }
 
             @Override
@@ -163,81 +168,94 @@ public class MemeSlider extends AppCompatActivity {
 
         imgview1.setOnTouchListener(new OnSwipeTouchListener(MemeSlider.this) {
             public void onSwipeRight() {
-
                 likebtn.setLiked(false);
+                if (count == 0) {
+                    Toast.makeText(MemeSlider.this, "End of the line!", Toast.LENGTH_SHORT).show();
+                } else {
+                    count = count - 1;
+                    Log.d("dumber", "L->" + count);
+                    changeImg(count);
+                    back = back - 1;
+                    DatabaseReference user = mUserDatabaseRef.child(username);
 
-                Log.d(TAG, "Right");
-                changeImg(back - 1);
-                back = back - 1;
-                DatabaseReference user = mUserDatabaseRef.child(username);
-                //swipes -= 1;
-                user.child("swipes").setValue(swipes);
-                //tv.setText("$wipes: " + swipes);
-                //Toast.makeText(MemeSlider.this, "right", Toast.LENGTH_SHORT).show();
-                if (swipes < 1) {
-                    NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MemeSlider.this);
+                    user.child("swipes").setValue(swipes);
+                    if (swipes < 1) {
+                        NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MemeSlider.this);
 
-                    dialogBuilder
-                            .withTitle("Out of Swipes")                                  //.withTitle(null)  no title
-                            .withTitleColor("#FFFFFF")                                  //def
-                            .withDividerColor("#11000000")                              //def
-                            .withMessage("Rate some text to earn more?")                     //.withMessage(null)  no Msg
-                            .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
-                            .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
-                            .withButton1Text("Yes! take me there!")                                      //def gone
-                            .setButton1Click(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(MemeSlider.this, TextRating.class);
-                                    startActivity(intent);
-                                }
-                            })
+                        dialogBuilder
+                                .withTitle("Out of Swipes")                                  //.withTitle(null)  no title
+                                .withTitleColor("#FFFFFF")                                  //def
+                                .withDividerColor("#11000000")                              //def
+                                .withMessage("Rate some text to earn more?")                     //.withMessage(null)  no Msg
+                                .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                                .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                                .withButton1Text("Yes! take me there!")                                      //def gone
+                                .setButton1Click(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(MemeSlider.this, TextRating.class);
+                                        startActivity(intent);
+                                    }
+                                })
 
-                            .show();
+                                .show();
+                    }
                 }
-                //Toast.makeText(MemeSlider.this, "not enough $wipes ,go earn some", Toast.LENGTH_SHORT).show();
-
             }
 
             public void onSwipeLeft() {
-                likebtn.setLiked(false);
-                if (swipes > 0) {
-                    Log.d(TAG, "Left");
-                    changeImg(count);
-                    DatabaseReference user = mUserDatabaseRef.child(username);
-                    swipes -= 1;
-                    user.child("swipes").setValue(swipes);
-                    tv.setText("$wipes: " + swipes);
+                if (count < ImageArray.size()) {
+                    likebtn.setLiked(false);
+                    if (swipes > 0) {
+                        count = count + 1;
+                        Log.d("dumber", "R->" + count);
+                        changeImg(count);
+                        DatabaseReference user = mUserDatabaseRef.child(username);
+                        if (count <= returnPoint) {
+                        } else {
+                            swipes -= 1;
+                        }
+                        user.child("swipes").setValue(swipes);
+                        tv.setText("$wipes: " + swipes);
+                        //Toast.makeText(MemeSlider.this, "left", Toast.LENGTH_SHORT).show();
+                        back = count;
 
-                    //Toast.makeText(MemeSlider.this, "left", Toast.LENGTH_SHORT).show();
-                    back = count;
-                    count++;
+                    } else {
+                        NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MemeSlider.this);
+
+                        dialogBuilder
+                                .withTitle("Out of Swipes")                                  //.withTitle(null)  no title
+                                .withTitleColor("#FFFFFF")                                  //def
+                                .withDividerColor("#11000000")                              //def
+                                .withMessage("Rate some text to earn more?")                     //.withMessage(null)  no Msg
+                                .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
+                                .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
+                                .withButton1Text("Yes! take me there!")                                      //def gone
+                                .setButton1Click(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(MemeSlider.this, TextRating.class);
+                                        startActivity(intent);
+                                    }
+                                })
+
+                                .show();
+                    }
                 } else {
-                    NiftyDialogBuilder dialogBuilder = NiftyDialogBuilder.getInstance(MemeSlider.this);
-
-                    dialogBuilder
-                            .withTitle("Out of Swipes")                                  //.withTitle(null)  no title
-                            .withTitleColor("#FFFFFF")                                  //def
-                            .withDividerColor("#11000000")                              //def
-                            .withMessage("Rate some text to earn more?")                     //.withMessage(null)  no Msg
-                            .withMessageColor("#FFFFFFFF")                              //def  | withMessageColor(int resid)
-                            .withDialogColor("#FFE74C3C")                               //def  | withDialogColor(int resid)
-                            .withButton1Text("Yes! take me there!")                                      //def gone
-                            .setButton1Click(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(MemeSlider.this, TextRating.class);
-                                    startActivity(intent);
-                                }
-                            })
-
-                            .show();
-
-                    //Toast.makeText(MemeSlider.this, "not enough $wipes, go earn some", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MemeSlider.this, "That's all the memes we have. Right now :D", Toast.LENGTH_SHORT).show();
                 }
             }
 
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("count", count);
+        editor.commit();
     }
 
     public void changeImg(int count) {

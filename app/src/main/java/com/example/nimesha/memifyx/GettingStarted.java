@@ -55,13 +55,13 @@ import static com.example.nimesha.memifyx.Signup.FB_DATABASE_PATH_user;
 
 public class GettingStarted extends AppCompatActivity {
 
+    public static String TAG = "smilies";
     SharedPreferences prefs;
     int swipes;
     int count;
     boolean islistInit = false;
     TextView tv;
     List<Question> questionList = new ArrayList<Question>();
-    public static String TAG = "smilies";
     TextView textViewQuestionText;
     Button SubmitBtn;
     LinearLayout linlaHeaderProgress;
@@ -117,6 +117,9 @@ public class GettingStarted extends AppCompatActivity {
         sequence.setConfig(config);
 
         sequence.addSequenceItem(textViewQuestionText,
+                "Your task is to rate the toxicity of the following comments", "OK");
+
+        sequence.addSequenceItem(textViewQuestionText,
                 "This is where the comments are displayed", "NEXT");
 
         sequence.addSequenceItem(smileRating,
@@ -127,7 +130,10 @@ public class GettingStarted extends AppCompatActivity {
                 "Can't read the text?", "OK");
 */
         sequence.addSequenceItem(SubmitBtn,
-                "After rating click this button\nTake a peek around! :D", "OK");
+                "After rating click this button!", "OK");
+
+        sequence.addSequenceItem(SubmitBtn,
+                "Take a look around! :D", "COOL");
 
         sequence.start();
 
@@ -228,6 +234,43 @@ public class GettingStarted extends AppCompatActivity {
         } else return null;
     }
 
+    void setQuestion() {
+        if (questionList.isEmpty()) {
+
+
+            AsyncTaskRunner runner = new AsyncTaskRunner();
+            runner.execute();
+
+            //SubmitBtn.setClickable(false);
+            //SubmitBtn.setEnabled(false);
+            //Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
+
+        } else {
+            for (Question qu : questionList) {
+                Log.d("stuff", qu.getQuestion());
+            }
+
+            tv.setText("$wipes: " + swipes);
+            NotEnglishCheckBox.setChecked(false);
+            smileRating.setSelected(false);
+            theQuestion = questionList.get(0);
+            questionList.remove(0);
+            scrollViewQuestionText.setVisibility(View.VISIBLE);
+            textViewQuestionText.setText(theQuestion.getQuestion());
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        tv = new TextView(this);
+        tv.setText("Fetching...");
+        tv.setTextColor(Color.WHITE);
+        tv.setPadding(5, 0, 5, 0);
+        tv.setTypeface(null, Typeface.BOLD);
+        tv.setTextSize(20);
+        menu.add(0, 0, 1, "swipes").setActionView(tv).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return true;
+    }
 
     private class AsyncTaskRunner extends AsyncTask<String, Void, String> {
 
@@ -330,44 +373,6 @@ public class GettingStarted extends AppCompatActivity {
         }
 
 
-    }
-
-    void setQuestion() {
-        if (questionList.isEmpty()) {
-
-
-            AsyncTaskRunner runner = new AsyncTaskRunner();
-            runner.execute();
-
-            //SubmitBtn.setClickable(false);
-            //SubmitBtn.setEnabled(false);
-            //Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
-
-        } else {
-            for (Question qu : questionList) {
-                Log.d("stuff", qu.getQuestion());
-            }
-
-            tv.setText("$wipes: " + swipes);
-            NotEnglishCheckBox.setChecked(false);
-            smileRating.setSelected(false);
-            theQuestion = questionList.get(0);
-            questionList.remove(0);
-            scrollViewQuestionText.setVisibility(View.VISIBLE);
-            textViewQuestionText.setText(theQuestion.getQuestion());
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        tv = new TextView(this);
-        tv.setText("Fetching...");
-        tv.setTextColor(Color.WHITE);
-        tv.setPadding(5, 0, 5, 0);
-        tv.setTypeface(null, Typeface.BOLD);
-        tv.setTextSize(20);
-        menu.add(0, 0, 1, "swipes").setActionView(tv).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        return true;
     }
 
 }
