@@ -3,6 +3,7 @@ package com.example.nimesha.memifyx;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -253,7 +254,7 @@ public class MemeSlider extends AppCompatActivity {
         tv = new TextView(this);
 
         tv.setText("$wipes: " + swipes);
-        tv.setTextColor(getResources().getColor(R.color.colorAccent));
+        tv.setTextColor(Color.WHITE);
         tv.setPadding(5, 0, 5, 0);
         tv.setTypeface(null, Typeface.BOLD);
         tv.setTextSize(20);

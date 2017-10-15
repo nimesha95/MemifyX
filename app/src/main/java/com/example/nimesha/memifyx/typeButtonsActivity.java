@@ -335,7 +335,7 @@ public class typeButtonsActivity extends AppCompatActivity {
         tv = new TextView(this);
 
         tv.setText("$wipes: " + swipes);
-        tv.setTextColor(getResources().getColor(R.color.colorAccent));
+        tv.setTextColor(Color.WHITE);
         tv.setPadding(5, 0, 5, 0);
         tv.setTypeface(null, Typeface.BOLD);
         tv.setTextSize(20);
