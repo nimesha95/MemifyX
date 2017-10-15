@@ -122,10 +122,10 @@ public class GettingStarted extends AppCompatActivity {
         sequence.addSequenceItem(smileRating,
                 "Select the Emoji that suites best for the above text", "GOT IT");
 
-
+/*
         sequence.addSequenceItem(NotEnglishCheckBox,
-                "If you can't read the text, select this box", "OK");
-
+                "Can't read the text?", "OK");
+*/
         sequence.addSequenceItem(SubmitBtn,
                 "After rating click this button\nTake a peek around! :D", "OK");
 
