@@ -132,6 +132,9 @@ public class TextRating extends AppCompatActivity{
         textViewQuestionText = (TextView) findViewById(R.id.textViewQuestionText);
         SubmitBtn = (Button) findViewById(R.id.button4);
         NotEnglishCheckBox = (CheckBox) findViewById (R.id.checkBox);
+
+        smileRating.setEnabled(true);
+        smileRating.setVisibility(View.VISIBLE);
         //setQuestion();
         setProgressBarIndeterminateVisibility(true);
         scrollViewQuestionText.setOnTouchListener(new OnSwipeTouchListener(TextRating.this) {
