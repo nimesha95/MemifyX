@@ -3,13 +3,13 @@ package com.example.nimesha.memifyx;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
@@ -24,7 +24,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,16 +31,16 @@ import java.io.IOException;
 
 public class Landing extends AppCompatActivity {
 
+    public static final String FB_STORAGE_PATH = "image/*";
+    public static final String FB_DATABASE_PATH = "image";
+    public static final int REQUEST_CODE = 1234;
+    SharedPreferences prefs;
+    String username;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private ImageView imageView;
     private EditText txtImageName;
     private Uri imgUri;
-
-
-    public static final String FB_STORAGE_PATH="image/*";
-    public static final String FB_DATABASE_PATH="image";
-    public static final int REQUEST_CODE = 1234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +52,9 @@ public class Landing extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.imageView);
         txtImageName = (EditText) findViewById(R.id.txtImageName);
+
+        prefs = getSharedPreferences("memify", MODE_PRIVATE);
+        username = prefs.getString("username", "User not found");
     }
 
     public void btnBrowse_Click(View v){
@@ -109,6 +111,7 @@ public class Landing extends AppCompatActivity {
                     //Save image info in to firebase database
                     String uploadId = mDatabaseRef.push().getKey();
                     mDatabaseRef.child(uploadId).setValue(imageUpload);
+                    mDatabaseRef.child(uploadId).child("uploaded_by").setValue(username);
                     onBackPressed();
                 }
             })
