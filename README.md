@@ -1,6 +1,6 @@
 # MemifyX
 
-MemifyX is a android application that let's user to upload their own memes into a pool of memes created by the users. This app is developed for the GNU Challenge which is hosted by Google Crowd9 research team. The main objective of this app is to lable the comments which are aquired from leading social meadia and news websites for their toxicity. 
+MemifyX is a android application that let's user to upload their own memes into a pool of memes created by the users. This app is developed for the NLU Challenge which is hosted by Google Crowd9 research team. The main objective of this app is to lable the comments which are aquired from leading social meadia and news websites for their toxicity. 
   
 # Features!
   - Share your existing memes with the total user base of the application
