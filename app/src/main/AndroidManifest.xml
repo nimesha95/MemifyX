@@ -64,6 +64,7 @@
             android:name=".GettingStarted"
             android:screenOrientation="portrait" />
         <activity android:name=".GettingStarted2" />
+
     </application>
 
 </manifest>
