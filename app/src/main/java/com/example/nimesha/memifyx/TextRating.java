@@ -257,7 +257,7 @@ public class TextRating extends AppCompatActivity{
 
                                 smileRating.setEnabled(true);
                                 smileRating.setVisibility(View.VISIBLE);
-                                 
+
                                 setQuestion();
                             }
                             else {

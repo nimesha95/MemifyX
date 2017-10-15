@@ -25,6 +25,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile('com.afollestad:bridge:5.1.2') {
+        exclude group: 'org.json', module: 'json'
+    }
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.+'
@@ -37,11 +40,9 @@ dependencies {
     compile 'com.github.jd-alexander:LikeButton:0.2.3'
     compile 'com.github.sd6352051:NiftyDialogEffects:1.0.0'
     compile 'com.github.deano2390:MaterialShowcaseView:1.2.0'
-    compile('com.afollestad:bridge:5.1.2') {
-        exclude group: 'org.json', module: 'json'
-    }
     testCompile 'junit:junit:4.12'
 }
+
 
 
 
