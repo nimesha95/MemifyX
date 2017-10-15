@@ -55,7 +55,7 @@ public class MemeSlider extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meme_slider);
+        setContentView(R.layout.activity_meme_slider_new);
 
         if (CheckNetwork.isInternetAvailable(MemeSlider.this)) //returns true if internet available
         {
