@@ -86,8 +86,14 @@ public class MemeSlider extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
         username = prefs.getString("username", "User not found");
         count = prefs.getInt("count", 0);
+        Log.d("countBBY", "" + count);
+        if (count < 0) {
+            count = 0;
+        } else if (count > prefs.getInt("imgArrLen", 0)) {
+            count = prefs.getInt("imgArrLen", 0);
+        }
         returnPoint = count;
-
+        Log.d("countBBY", "return point " + prefs.getInt("imgArrLen", 0));
         mUserDatabaseRef = FirebaseDatabase.getInstance().getReference(FB_DATABASE_PATH_user);
         mDatabaseRef = FirebaseDatabase.getInstance().getReference(Landing.FB_DATABASE_PATH);
 
@@ -127,10 +133,10 @@ public class MemeSlider extends AppCompatActivity {
                     img = snapshot.getValue(ImageUpload.class);
                     img.setKey(snapshot.getKey());
                     ImageArray.add(img);
-                    Log.d("likebtn", "came here");
                     Log.d("imglist", "" + img.getUrl());
                 }
                 Log.d("dumber", "curIndex->" + curIndex);
+                Log.d("countBBY", "" + ImageArray.size());
                 changeImg(count);
             }
 
@@ -202,7 +208,7 @@ public class MemeSlider extends AppCompatActivity {
             }
 
             public void onSwipeLeft() {
-                if (count < ImageArray.size()) {
+                if (count < ImageArray.size() - 1) {
                     likebtn.setLiked(false);
                     if (swipes > 0) {
                         count = count + 1;
@@ -240,6 +246,7 @@ public class MemeSlider extends AppCompatActivity {
                     }
                 } else {
                     Toast.makeText(MemeSlider.this, "That's all the memes we have. Right now :D", Toast.LENGTH_SHORT).show();
+                    count = ImageArray.size() - 1;
                 }
             }
 
@@ -251,7 +258,8 @@ public class MemeSlider extends AppCompatActivity {
         super.onStop();
         SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("count", count);
+        editor.putInt("count", count - 1);
+        editor.putInt("imgArrLen", ImageArray.size());
         editor.commit();
     }
 
