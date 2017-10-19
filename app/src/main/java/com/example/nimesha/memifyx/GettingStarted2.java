@@ -85,24 +85,27 @@ public class GettingStarted2 extends AppCompatActivity {
 
         // sequence example
         ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(500); // half second between each showcase view
+        config.setDelay(250); // half second between each showcase view
 
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this);
 
         sequence.setConfig(config);
 
         sequence.addSequenceItem(ButtonObscene,
-                "Touch this to select the thereat level", "NEXT");
+                "If the comment contains sexual contents", "NEXT");
 
         sequence.addSequenceItem(ButtonObscene,
-                "Touch it constantly to select the level of toxicity", "GOT IT");
+                "Touch it constantly to select the level", "GOT IT");
+        ButtonObscene.setImageResource(R.drawable.btn_obscene_2);
+        ButtonObscene.setTag(4);
+        sequence.addSequenceItem(ButtonThreat,
+                "If The comment contains Threat", "OK");
 
+        sequence.addSequenceItem(ButtonIdentityHate,
+                "If The comment contains hate targeted for a specific person or a group(racism,etc)", "OK");
 
-        sequence.addSequenceItem(ButtonObscene,
-                "Darker the color means higher the toxicity", "OK");
-
-        sequence.addSequenceItem(ButtonSubmit,
-                "Tap Here Submit the response", "OK");
+        sequence.addSequenceItem(ButtonInsult,
+                "If The comment contains insults", "OK");
 
         sequence.addSequenceItem(ButtonSubmit,
                 "Now You're Ready! GLHF", "COOL");
@@ -326,6 +329,18 @@ public class GettingStarted2 extends AppCompatActivity {
         }
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        tv = new TextView(this);
+
+        tv.setText("$wipes: " + swipes);
+        tv.setTextColor(getResources().getColor(R.color.colorAccent));
+        tv.setPadding(5, 0, 5, 0);
+        tv.setTypeface(null, Typeface.BOLD);
+        tv.setTextSize(20);
+        menu.add(0, 0, 1, "swipes").setActionView(tv).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return true;
+    }
+
     public class PostAnotation extends AsyncTask<Void, Void, String> {
         String url;
         String response = null;
@@ -404,18 +419,6 @@ public class GettingStarted2 extends AppCompatActivity {
 
         }
 
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        tv = new TextView(this);
-
-        tv.setText("$wipes: " + swipes);
-        tv.setTextColor(getResources().getColor(R.color.colorAccent));
-        tv.setPadding(5, 0, 5, 0);
-        tv.setTypeface(null, Typeface.BOLD);
-        tv.setTextSize(20);
-        menu.add(0, 0, 1, "swipes").setActionView(tv).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        return true;
     }
 
 }
