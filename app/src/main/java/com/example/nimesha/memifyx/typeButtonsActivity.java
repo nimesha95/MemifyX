@@ -277,8 +277,8 @@ public class typeButtonsActivity extends AppCompatActivity {
                     Log.d("finalAnswer", finalAnswer.getString("answer"));
 
                     PostAnotation postAnotation = new PostAnotation();
-                    String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/questions/" + questionId + "/answers/" + username;
-                    String oldUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/questions/" + questionId + "/answers/" + username;
+                    String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v1_x10k_zhs25/questions/" + questionId + "/answers/" + username;
+                    String oldUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v1_x10k_zhs25/questions/" + questionId + "/answers/" + username;
                     Log.d("url", newUrl);
                     postAnotation.setUrl(newUrl);
                     postAnotation.execute();

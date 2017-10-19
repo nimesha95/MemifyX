@@ -248,7 +248,7 @@ public class TextRating extends AppCompatActivity{
                                 Toast.makeText(TextRating.this, "question marked as not in english or not understandable", Toast.LENGTH_SHORT).show();
                                 //add code to send the the answer post or move to button Activity
 
-                                String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/questions/" + theQuestion.getQuestionID() + "/answers/" + username;
+                                String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v1_x10k_zhs25/questions/" + theQuestion.getQuestionID() + "/answers/" + username;
                                 PostAnotation postAnotation = new PostAnotation();
                                 postAnotation.setUrl(newUrl);
                                 postAnotation.execute();
@@ -370,8 +370,8 @@ public class TextRating extends AppCompatActivity{
 
         @Override
         protected String doInBackground(String... params) {
-            String newUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v2_x2000_zhs25/next10_unanswered_questions";
-            String oldUrl="https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_x2000_zhs25/next10_unanswered_questions";
+            String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v1_x10k_zhs25/next10_unanswered_questions";
+            String oldUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v1_x10k_zhs25/next10_unanswered_questions";
             String url = newUrl;
 
             ArrayList<NameValuePair> param = new ArrayList<NameValuePair>();
