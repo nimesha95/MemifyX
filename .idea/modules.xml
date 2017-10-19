@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MemifyX.iml" filepath="$PROJECT_DIR$/MemifyX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MemifyXNew.iml" filepath="$PROJECT_DIR$/MemifyXNew.iml" />
       <module fileurl="file://$PROJECT_DIR$/MemifyXReady.iml" filepath="$PROJECT_DIR$/MemifyXReady.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

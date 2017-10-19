@@ -270,9 +270,10 @@ public class typeButtonsActivity extends AppCompatActivity {
                     theAnswer.put("identityHate", getIdentityHateLevel());
                     theAnswer.put("insult", getInsultLevel());
                     theAnswer.put("threat", getThreatLevel());
+                    theAnswer.put("comments", "");
 
                     finalAnswer = new JSONObject();
-                    finalAnswer.put("answer", theAnswer.toString());
+                    finalAnswer.put("answer", theAnswer);
                     //finalAnswer.put("answer", theAnswer);
                     Log.d("finalAnswer", finalAnswer.getString("answer"));
 

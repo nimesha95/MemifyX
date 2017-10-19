@@ -239,10 +239,12 @@ public class TextRating extends AppCompatActivity{
                                 JSONObject theAnswer = new JSONObject();
 
                                 theAnswer.put("readableAndInEnglish", checkBoxStatus());
+                                theAnswer.put("comments", "");
+
 
 
                                 finalAnswer = new JSONObject();
-                                finalAnswer.put("answer", theAnswer.toString());
+                                finalAnswer.put("answer", theAnswer);
                                 Log.d("finalAnswer",finalAnswer.getString("answer"));
 
                                 Toast.makeText(TextRating.this, "question marked as not in english or not understandable", Toast.LENGTH_SHORT).show();
