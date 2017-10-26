@@ -18,7 +18,7 @@ The whole point of this app to label the data that are used to teach the [Perspe
 
 ### Installation
 
-Download the Application from [here](https://nodejs.org/) and install it on your android smart phone.
+Download the Application from [here](https://github.com/nimesha95/MemifyX/blob/master/MemifyX.apk) and install it on your android smart phone.
 
 ### Requirements
    - A android device running Android version 4.0 or higher
