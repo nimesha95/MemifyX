@@ -54,6 +54,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static android.R.attr.id;
@@ -372,7 +374,8 @@ public class TextRating extends AppCompatActivity{
 
         @Override
         protected String doInBackground(String... params) {
-            String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v1_x10k_zhs25/next10_unanswered_questions";
+            String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v1_x10k_zhs25/to_answer_questions";
+            //String newUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v1_x10k_zhs25/next10_unanswered_questions";
             String oldUrl = "https://crowd9api-dot-wikidetox.appspot.com/client_jobs/wp_v1_x10k_zhs25/next10_unanswered_questions";
             String url = newUrl;
 
@@ -440,14 +443,23 @@ public class TextRating extends AppCompatActivity{
 
                     String question = questionObject.getString("revision_text");
                     String questionID = questionObject.getString("revision_id");
-                    Log.d("hippo",questionID+" --> "+question);
+                    //Log.d("hippo",questionID+" --> "+question);
                     questionList.add(new Question(questionID,question));
 
                     islistInit=true;
-
-
                 }
+
+                Collections.sort(questionList, new Comparator<Question>() {
+                    public int compare(Question o1, Question o2) {
+                        if (o1.sizeOfQuestion() == o2.sizeOfQuestion())
+                            return 0;
+                        return o1.sizeOfQuestion() < o2.sizeOfQuestion() ? -1 : 1;
+                    }
+                });
+
                 theQuestion = questionList.get(0);
+                Log.d("totalLen", "" + theQuestion.sizeOfQuestion());
+
                 questionList.remove(0);
                 textViewQuestionText.setText(theQuestion.getQuestion());// End Loop
                 linlaHeaderProgress.setVisibility(View.GONE);

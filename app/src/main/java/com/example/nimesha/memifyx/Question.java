@@ -15,6 +15,10 @@ public class Question {
     public Question() {
     }
 
+    public int sizeOfQuestion() {
+        return question.length();
+    }
+
     public String getQuestion() {
         return question;
     }
