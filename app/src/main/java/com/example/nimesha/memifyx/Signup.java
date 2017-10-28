@@ -110,6 +110,7 @@ public class Signup extends AppCompatActivity {
                                 //sets user info on firebase
                                 mUserDatabaseRef.child(email).child("count").setValue(0);
                                 mUserDatabaseRef.child(email).child("swipes").setValue(10);
+                                mUserDatabaseRef.child(email).child("lastpoint").setValue(0);
 
                                 SharedPreferences prefs = getSharedPreferences("memify", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();

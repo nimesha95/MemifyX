@@ -71,6 +71,7 @@ public class TextRating extends AppCompatActivity{
     SharedPreferences prefs;
     int swipes;
     int count;
+    int lastpoint;
     boolean islistInit=false;
     TextView tv;
     List<Question> questionList = new ArrayList<Question>();
@@ -125,6 +126,7 @@ public class TextRating extends AppCompatActivity{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 swipes = dataSnapshot.child("swipes").getValue(Integer.class);
+                lastpoint = dataSnapshot.child("lastpoint").getValue(Integer.class);
                 count=dataSnapshot.child("count").getValue(Integer.class);
                 Log.d("swipes",""+swipes);
             }
@@ -156,6 +158,8 @@ public class TextRating extends AppCompatActivity{
                 smileRating.setEnabled(true);
                 smileRating.setVisibility(View.VISIBLE);
                 setQuestion();
+
+
                 smileRating.setSelectedSmile(BaseRating.NONE,false);
 
             }
@@ -297,6 +301,14 @@ public class TextRating extends AppCompatActivity{
         setQuestion();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        DatabaseReference user = mUserDatabaseRef.child(username);
+        user.child("lastpoint").setValue(lastpoint);
+
+    }
+
     private String checkBoxStatus(){
         if(NotEnglishCheckBox.isChecked()){
             Log.d("checkBoxStatus","No");
@@ -338,6 +350,8 @@ public class TextRating extends AppCompatActivity{
             //Toast.makeText(TextRating.this, "left", Toast.LENGTH_SHORT).show();
 
         } else {
+            //Log.d("lastpoint",""+lastpoint);
+            lastpoint = lastpoint + 1;
             tv.setText("$wipes: " + swipes);
             NotEnglishCheckBox.setChecked(false);
             smileRating.setSelected(false);
@@ -449,13 +463,23 @@ public class TextRating extends AppCompatActivity{
                     islistInit=true;
                 }
 
-                Collections.sort(questionList, new Comparator<Question>() {
+                Collections.sort(questionList, new Comparator<Question>() {     //sorting arraylist
                     public int compare(Question o1, Question o2) {
                         if (o1.sizeOfQuestion() == o2.sizeOfQuestion())
                             return 0;
                         return o1.sizeOfQuestion() < o2.sizeOfQuestion() ? -1 : 1;
                     }
                 });
+
+
+                Log.d("lastpoint", "lastpoint -> " + lastpoint);
+                Log.d("lastpoint", "before -> " + questionList.size());
+                if (lastpoint > 0) {
+                    for (int i = 0; i <= lastpoint; i++) {
+                        questionList.remove(0);
+                    }
+                }
+                Log.d("lastpoint", "after -> " + questionList.size());
 
                 theQuestion = questionList.get(0);
                 Log.d("totalLen", "" + theQuestion.sizeOfQuestion());
